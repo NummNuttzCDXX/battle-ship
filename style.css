@@ -1,0 +1,61 @@
+body {
+	display: flex;
+	flex-direction: column;
+
+	min-width: 100vw;
+	min-height: 100vh;
+}
+
+header h1 {
+	text-align: center;
+}
+
+.content {
+	display: flex;
+	justify-content: space-around;
+}
+
+/* Gameboards */
+.gameboard {
+	--size: 35vw; /* Width/Height of gameboard will both be the same */
+	width: var(--size);
+	height: var(--size);
+
+	display: flex;
+	position: relative;
+
+	border: 2px solid black;
+	background-color: blue;
+}
+
+.col {
+	display: flex;
+	flex-direction: column-reverse;
+	flex: 1;
+
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+}
+
+.cell {
+	flex: 1;
+
+	border-top: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+/* Water like pattern */
+.col:nth-child(even) :nth-child(even) {
+	background-image: linear-gradient(to bottom right, blue, rgb(0, 106, 255), rgb(40, 173, 255), rgb(0, 106, 255), blue);
+}
+
+.col:nth-child(even) :nth-child(odd) {
+	background-image: linear-gradient(to bottom left, blue, rgb(0, 106, 255), rgb(40, 173, 255), rgb(0, 106, 255), blue);
+}
+
+.col:nth-child(odd) :nth-child(even) {
+	background-image: linear-gradient(to bottom right, rgb(0, 106, 255), rgb(40, 173, 255), blue, rgb(40, 173, 255), rgb(0, 106, 255));
+}
+.col:nth-child(odd) :nth-child(odd) {
+	background-image: linear-gradient(to bottom left, rgb(0, 106, 255), rgb(40, 173, 255), blue, rgb(40, 173, 255), rgb(0, 106, 255));
+}
