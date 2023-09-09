@@ -46,10 +46,16 @@ header h1 {
 }
 
 .cell {
+	position: relative;
+
 	flex: 1;
 
 	border-top: 2px solid black;
 	border-bottom: 2px solid black;
+}
+
+.cell img {
+	position: absolute;
 }
 
 /* Water like pattern */
@@ -66,4 +72,12 @@ header h1 {
 }
 .col:nth-child(odd) :nth-child(odd) {
 	background-image: linear-gradient(to bottom left, rgb(0, 106, 255), rgb(40, 173, 255), blue, rgb(40, 173, 255), rgb(0, 106, 255));
+}
+
+.ship-container {
+	margin-top: 2rem;
+
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
 }
