@@ -12,10 +12,18 @@ header h1 {
 
 .content {
 	display: flex;
+	flex-direction: column;
 	justify-content: space-around;
 }
 
 /* Gameboards */
+.board-container {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
 .gameboard {
 	--size: 35vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
