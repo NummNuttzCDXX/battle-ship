@@ -81,3 +81,7 @@ header h1 {
 	justify-content: center;
 	gap: 1rem;
 }
+
+.gameboard .col .cell img {
+	background-image: none;
+}
