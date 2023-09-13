@@ -12,6 +12,107 @@ import {player1, player2} from '.';
 
 export const Dom = (() => {
 	/**
+	 * Manipulate event listeners on the Cells of
+	 * the gameboard
+	 * @module cellListeners
+	 * @param {Player} currentPlayer Player to add/remove cell listeners
+	 * @return {Function}
+	 */
+	const cellListeners = (() => {
+		/**
+		 * Listen for clicks on cells to make a move there
+		 *
+		 * @param {number} playerNum The player number whos
+		 * event listeners you want to remove
+		 * - `player1` = `1`
+		 * - `player2` = `2`
+		 */
+		const add = (playerNum) => {
+			const p = `p${playerNum}`;
+
+			const cells = document.querySelectorAll(`#player2 .cell`);
+			cells.forEach((cell) => {
+				const callback =
+					callbacks[p][cell.parentElement.getAttribute('data')][
+						cell.getAttribute('data')
+					];
+
+				cell.addEventListener('click', callback);
+			});
+		};
+
+		/**
+		 * Remove event listeners from Cells
+		 *
+		 * @param {number} playerNum The player number whos
+		 * event listeners you want to remove
+		 * - `player1` = `1`
+		 * - `player2` = `2`
+		 */
+		const remove = (playerNum) => {
+			const p = `p${playerNum}`;
+
+			const cells = document.querySelectorAll(`#player2 .cell`);
+			cells.forEach((cell) => {
+				const callback =
+					callbacks[p][cell.parentElement.getAttribute('data')][
+						cell.getAttribute('data')
+					];
+
+				cell.removeEventListener('click', callback);
+			});
+		};
+
+		/**
+		 * Create callback functions for the players that can be used
+		 * for adding/removing the event listeners to the cells when making
+		 * a move
+		 *
+		 * @return {Function[]} An Object with 2 properties (`p1` `p2`)
+		 * - p1 holds an Array of callbacks for player1
+		 * - p2 holds an Array of callbacks for player2
+		 */
+		const createCallbacks = () => {
+			// Create Arrays for p1/p2 callbacks
+			const callbacks1 = [];
+			const callbacks2 = [];
+
+			// Get columns on board (Listeners will always be added to player2 board)
+			const cols = document.querySelectorAll('#player2 .col');
+			cols.forEach((col) => {
+				// For each column create 1 column Array for each player
+				const column1 = [];
+				const column2 = [];
+
+				// Get cells in the current column
+				const cells = col.querySelectorAll('.cell');
+
+				cells.forEach((cell) => {
+					// For each cell, create player1 callback
+					const player1Callback = () => player1.makeMove(cell, player2);
+					column1.push(player1Callback); // Push callback
+
+					// Create player2 callback
+					const player2Callback = () => player2.makeMove(cell, player1);
+					column2.push(player2Callback); // push
+				});
+
+				// Add players column array to their corrosponding callback Array
+				callbacks1.push(column1);
+				callbacks2.push(column2);
+			});
+
+			// Return Object holding player1 and 2's callbacks
+			return {p1: callbacks1, p2: callbacks2};
+		};
+
+		return {add, remove, createCallbacks};
+	})();
+
+	// Save the callbacks for player event listeners^^
+	const callbacks = cellListeners.createCallbacks();
+
+	/**
 	 * Add a marker (X) to a cell where a miss occurred
 	 *
 	 * @param {number[]} coord Coordinates
@@ -205,5 +306,5 @@ export const Dom = (() => {
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
-	return {createShips, dragDrop, renderGameboards, addMiss};
+	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss};
 })();
