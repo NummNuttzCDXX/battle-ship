@@ -2,6 +2,7 @@
 Start: 9/5/23 */
 
 import {Dom} from './dom';
+import {Game} from './game';
 import {Computer, Player} from './player';
 
 // Create Players
@@ -30,7 +31,17 @@ cells.forEach((cell) => {
 		player1.board.placeShip(coord, shipName, ship.getAttribute('data'),
 			isVerticle);
 
-		const coord = [cell.parentElement.id, cell.id]; // Get coord
-		player1.board.placeShip(coord, ship.getAttribute('data'));
+		// Check if all ships are placed
+		if (document.querySelector('.ship-container').children.length === 0) {
+			// Enable 'Start Button'
+			document.querySelector('.start').disabled = false;
+		}
 	});
+});
+
+// Start Game on click
+const startBtn = document.querySelector('.start');
+startBtn.addEventListener('click', () => {
+	// Start game
+	Game.startGame();
 });
