@@ -91,6 +91,17 @@ header h1 {
 	background-image: none;
 }
 
+/* Rotate class for Ships
+`transform-origin` prop needs to be added dynamically (will be different for every ship) */
+.rotate {
+	transform: rotate(-90deg);
+	z-index: 2;
+}
+
+.start {
+	height: fit-content;
+}
+
 .x-icon {
 	/* Color Icon Red */
 	filter: invert(14%) sepia(90%) saturate(5380%) hue-rotate(2deg) brightness(106%) contrast(125%);
