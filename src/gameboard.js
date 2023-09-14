@@ -1,5 +1,7 @@
 // Gameboard Module
 
+import {Dom} from './dom';
+import {Game} from './game';
 import {Ship} from './ship';
 
 /** Gameboard Constructor */
@@ -65,6 +67,7 @@ export class Gameboard {
 	 * Place a ship at `coord`
 	 *
 	 * @param {number[]} coord Array of coordinates
+	 * @param {string} name Name of ship
 	 * @param {number} len Length of ship
 	 * @param {boolean} [isVerticle] Is the ship placed vertically (up/down) or
 	 * horizontally (left/right)?
@@ -128,7 +131,11 @@ export class Gameboard {
 
 		// Check if attack hit a ship
 		if (cell.hasShip) {
-			cell.ship.hit();
+			cell.ship.hit(); // Hit ship
+
+			// Add hit to board
+			const isOppBoard = this.player === 1 ? false : true;
+			Dom.addHit(coord, isOppBoard);
 
 			// Check if ship is sunk
 			if (cell.ship.isSunk()) {
@@ -142,11 +149,17 @@ export class Gameboard {
 				// Check if all ships sunk
 				if (this.#checkShips()) {
 					// GAME OVER
+					Game.gameOver();
 				}
 			}
 		// Else shot missed
 		} else {
-			// Change Turns
+			// Add miss
+			if (this.player === 1) {
+				Dom.addMiss(coord, false);
+			} else {
+				Dom.addMiss(coord, true);
+			}
 		}
 	}
 
