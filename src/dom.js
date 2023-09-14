@@ -150,6 +150,21 @@ export const Dom = (() => {
 	};
 
 	/**
+	 * Add a hit marker to the board
+	 *
+	 * @param {number[]} coord Coordinates to add the hit
+	 * @param {boolean} [isOpponentBoard=true] Is the hit on the opponents board?
+	 */
+	const addHit = (coord, isOpponentBoard = true) => {
+		// Get cell
+		const board = isOpponentBoard ? 'player2' : 'player1';
+		const cell = document.querySelector(`#${board} .col[data="${coord[0]}"]`)
+			.querySelector(`.cell[data="${coord[1]}"]`);
+
+		cell.classList.add('hit');
+	};
+
+	/**
 	 * Add the ships to the DOM
 	 * (NOT on the gameboard)
 	 * where Player can drag and drop them on the board
@@ -316,5 +331,6 @@ export const Dom = (() => {
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
-	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss};
+	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
+		addHit};
 })();
