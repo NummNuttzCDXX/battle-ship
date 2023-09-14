@@ -9,6 +9,7 @@ import patrol from './assets/img/patrol.svg'; // 2
 import xIcon from './assets/img/x-icon.svg';
 import {Player, Computer} from './player';
 import {player1, player2} from '.';
+import {Game} from './game';
 
 export const Dom = (() => {
 	/**
@@ -89,11 +90,20 @@ export const Dom = (() => {
 
 				cells.forEach((cell) => {
 					// For each cell, create player1 callback
-					const player1Callback = () => player1.makeMove(cell, player2);
+					const player1Callback = () => {
+						// Make player1's move
+						player1.makeMove(cell, player2);
+
+						Game.makeMove();
+					};
 					column1.push(player1Callback); // Push callback
 
 					// Create player2 callback
-					const player2Callback = () => player2.makeMove(cell, player1);
+					const player2Callback = () => {
+						player2.makeMove(cell, player1);
+
+						Game.makeMove();
+					};
 					column2.push(player2Callback); // push
 				});
 
