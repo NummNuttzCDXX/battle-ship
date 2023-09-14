@@ -1,6 +1,7 @@
 // Player Module
 
 import {player1} from '.';
+import {Dom} from './dom';
 import {Gameboard} from './gameboard';
 
 /** Player Constructor */
@@ -35,6 +36,9 @@ export class Player {
 
 		// Attack opponent
 		otherPlayer.board.recieveAttack(coord);
+
+		// Remove all listeners for Player
+		Dom.cellListeners.remove(this.player);
 	}
 }
 
