@@ -1,4 +1,22 @@
+@font-face {
+	font-family: Rubik;
+	src: url(../src/assets/Rubik-VariableFont_wght.ttf);
+}
+
+:root {
+	font-size: clamp(16px, 3vmin, 40px);
+	font-family: Rubik, Arial, Helvetica, sans-serif;
+
+	/* Colors */
+	--dark-blue: #011638ff;
+	--blue: #0d21a1ff;
+	--night: #141414ff;
+	--antiflash-white: #eef0f2ff;
+	--saffron: #eec643ff;
+}
+
 body {
+	margin: 0;
 	display: flex;
 	flex-direction: column;
 
