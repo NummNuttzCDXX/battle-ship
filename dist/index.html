@@ -12,6 +12,28 @@
 		<h1>Battle Ship</h1>
 	</header>
 
+	<div class="start-screen">
+		<p>Place your ships, find the enemy, battle till only one remains!</p>
+
+		<form action="">
+			<fieldset>
+				<legend>Select Players</legend>
+
+				<label for="single-player">
+					Single-Player
+					<input type="radio" name="players" id="single-player" checked>
+				</label>
+				
+				<label for="multi-player">
+					Multi-Player
+					<input type="radio" name="players" id="multi-player">
+				</label>
+			</fieldset>
+
+			<button type="button" class="start">Start Game</button>
+		</form>
+	</div>
+
 	<div class="content">
 		<div class="board-container">
 			<div class="gameboard" id="player1">
@@ -136,8 +158,6 @@
 					<div class="cell" data="9"></div>
 				</div>
 			</div>
-
-			<button type="button" class="start" disabled>Start Game</button>
 
 			<div class="gameboard" id="player2">
 				<div class="col" data="0">
