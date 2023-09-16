@@ -109,14 +109,14 @@ export const Dom = (() => {
 			});
 
 			// Return Object holding player1 and 2's callbacks
-			return {p1: callbacks1, p2: callbacks2};
+			callbacks = {p1: callbacks1, p2: callbacks2};
 		};
+
+		// Save the callbacks for player event listeners^^
+		let callbacks;
 
 		return {add, remove, createCallbacks};
 	})();
-
-	// Save the callbacks for player event listeners^^
-	const callbacks = cellListeners.createCallbacks();
 
 	/**
 	 * Add a marker (X) to a cell where a miss occurred
