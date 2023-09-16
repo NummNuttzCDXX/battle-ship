@@ -7,7 +7,8 @@ import {Computer, Player} from './player';
 
 // Create Players
 export const player1 = new Player();
-export const player2 = new Computer();
+// Initialize Game
+export const game = new Game();
 
 // Add ships to DOM
 Dom.createShips();
@@ -43,5 +44,5 @@ cells.forEach((cell) => {
 const startBtn = document.querySelector('.start');
 startBtn.addEventListener('click', () => {
 	// Start game
-	Game.startGame();
+	game.startGame();
 });

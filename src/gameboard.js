@@ -1,7 +1,7 @@
 // Gameboard Module
 
 import {Dom} from './dom';
-import {Game} from './game';
+import {game} from '.';
 import {Ship} from './ship';
 
 /** Gameboard Constructor */
@@ -149,7 +149,7 @@ export class Gameboard {
 				// Check if all ships sunk
 				if (this.#checkShips()) {
 					// GAME OVER
-					Game.gameOver();
+					game.gameOver();
 				}
 			}
 		// Else shot missed

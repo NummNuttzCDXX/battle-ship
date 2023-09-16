@@ -1,27 +1,40 @@
 // Game Module - Handle game functions
 
-import {player1, player2} from '.';
+import {player1} from '.';
 import {Dom} from './dom';
 
 /**
  * Game Module
  * - Handle game functions
  */
-export const Game = (() => {
-	/** Is the game running? */
-	let game = false;
-	/** Whos turn is it? */
-	let turn = 1;
+export class Game {
+	/**
+	 * Construct main Game Module
+	 */
+	constructor() {
+		/** Is the game running? */
+		this.game = false;
+		/** Whos turn is it? */
+		this.turn = 1;
 
-	const startGame = () => {
-		if (game) {
+		/**
+		 * @type {Player|Computer} Player 2
+		 * - Saving p2 as a property in Game Module will make it easier to `export`
+		 * the variable since p2 is created dynamically and could be a `Player` or
+		 * `Computer`
+		 */
+		this.player2 = null;
+	}
+
+	startGame = () => {
+		if (this.game) {
 			throw Error('Error starting game. Cant start game twice');
 		} else {
-			game = true;
+			this.game = true;
 		}
 
 		// Start player1's turn
-		Dom.cellListeners.add(turn);
+		Dom.cellListeners.add(this.turn);
 	};
 
 	/**
@@ -29,34 +42,34 @@ export const Game = (() => {
 	 * OR Computer takes their turn
 	 * - Runs after Player takes their turn
 	 */
-	const makeMove = () => {
-		if (!game) return; // If game is not playing, return
+	makeMove = () => {
+		if (!this.game) return; // If game is not playing, return
 
-		switchTurns();
+		this.#switchTurns();
 
 		// If its p1's turn
-		if (turn === 1) {
-			Dom.cellListeners.add(turn); // Add p1 listeners
+		if (this.turn === 1) {
+			Dom.cellListeners.add(this.turn); // Add p1 listeners
 		// If p2 is computer and its their turn
-		} else if (player2.ai && turn === 2) {
+		} else if (this.player2.ai && this.turn === 2) {
 			// AI makes their move
-			player2.makeRandomMove();
+			this.player2.makeRandomMove();
 
 			// Switch turns and add p1 listeners
-			makeMove();
+			this.makeMove();
 		// If p2 is NOT an AI and its their turn
-		} else if (!player2.ai && turn === 2) {
+		} else if (!this.player2.ai && this.turn === 2) {
 			// Switch Gameboards // Render p2 gameboard
-			Dom.renderGameboards(player2, player1);
-			Dom.cellListeners.add(turn); // Add p2 listeners
+			Dom.renderGameboards(this.player2, player1);
+			Dom.cellListeners.add(this.turn); // Add p2 listeners
 		} else {
 			throw Error('Error making a move');
 		}
 	};
 
-	const gameOver = () => {
+	gameOver = () => {
 		alert('Gameover'); // TEMP
-		game = false;
+		this.game = false;
 	};
 
 	/**
@@ -65,7 +78,5 @@ export const Game = (() => {
 	 * @return {number} Whos turn it is
 	 * - 1 or 2
 	 */
-	const switchTurns = () => turn === 1 ? turn = 2 : turn = 1;
-
-	return {game, turn, startGame, makeMove, gameOver};
-})();
+	#switchTurns = () => this.turn === 1 ? this.turn = 2 : this.turn = 1;
+};

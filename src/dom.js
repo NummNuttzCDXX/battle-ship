@@ -92,17 +92,17 @@ export const Dom = (() => {
 					// For each cell, create player1 callback
 					const player1Callback = () => {
 						// Make player1's move
-						player1.makeMove(cell, player2);
+						player1.makeMove(cell, game.player2);
 
-						Game.makeMove();
+						game.makeMove();
 					};
 					column1.push(player1Callback); // Push callback
 
 					// Create player2 callback
 					const player2Callback = () => {
-						player2.makeMove(cell, player1);
+						game.player2.makeMove(cell, player1);
 
-						Game.makeMove();
+						game.makeMove();
 					};
 					column2.push(player2Callback); // push
 				});
