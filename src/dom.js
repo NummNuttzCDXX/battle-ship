@@ -8,8 +8,7 @@ import sub from './assets/img/submarine.svg'; // 3
 import patrol from './assets/img/patrol.svg'; // 2
 import xIcon from './assets/img/x-icon.svg';
 import {Player, Computer} from './player';
-import {player1, player2} from '.';
-import {Game} from './game';
+import {player1, game} from '.';
 
 export const Dom = (() => {
 	/**
@@ -68,10 +67,7 @@ export const Dom = (() => {
 		 * Create callback functions for the players that can be used
 		 * for adding/removing the event listeners to the cells when making
 		 * a move
-		 *
-		 * @return {Function[]} An Object with 2 properties (`p1` `p2`)
-		 * - p1 holds an Array of callbacks for player1
-		 * - p2 holds an Array of callbacks for player2
+		 * - Set `callback` property to be the Created Callbacks
 		 */
 		const createCallbacks = () => {
 			// Create Arrays for p1/p2 callbacks
