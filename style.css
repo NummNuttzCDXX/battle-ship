@@ -24,8 +24,50 @@ body {
 	min-height: 100vh;
 }
 
+header {
+	z-index: 3;
+}
+
 header h1 {
 	text-align: center;
+	font-size: 2.5em;
+
+	/* Text Gradient */
+	background: linear-gradient(to bottom, var(--antiflash-white) 15%, yellow 50%, rgb(253, 180, 11) 90%);
+	background-clip: text;
+	-moz-background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.start-screen {
+	width: 100vw;
+	height: 100vh;
+
+	z-index: 2;
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	background-color: var(--dark-blue);
+	color: var(--saffron);
+}
+
+form {
+	width: 25%;
+}
+
+fieldset {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .5em;
+}
+
+.hide, .start-screen.hide {
+	display: none;
 }
 
 .content {
