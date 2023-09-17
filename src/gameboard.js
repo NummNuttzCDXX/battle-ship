@@ -88,12 +88,24 @@ export class Gameboard {
 			loop while y doesnt equal y - length of ship
 			we decrement y to move Y coord down and set the cells
 			`hasShip` prop to true */
-			const dif = coord[1] - len;
-			for (let y = coord[1]; y !== dif; y--) {
-				// Get cell and set hasShip to true
-				const cell = this.grid[coord[0]][y];
-				cell.hasShip = true;
-				cell.ship = ship; // Link Cell to Ship
+
+			let dif = coord[1] - len;
+			// If dif <= 0 then itll go off the board and need to increment
+			if (dif < 0) {
+				dif = coord[1] + len;
+				for (let y = coord[1]; y !== dif; y++) {
+					// Get cell and set hasShip to true
+					const cell = this.grid[coord[0]][y];
+					cell.hasShip = true;
+					cell.ship = ship; // Link Cell to Ship
+				}
+			} else {
+				for (let y = coord[1]; y !== dif; y--) {
+					// Get cell and set hasShip to true
+					const cell = this.grid[coord[0]][y];
+					cell.hasShip = true;
+					cell.ship = ship; // Link Cell to Ship
+				}
 			}
 		} else {
 			// Else ship goes from left to right
@@ -101,11 +113,22 @@ export class Gameboard {
 			loop while x doesnt equal x + length of ship
 			increment x to move the X coord up and set the corrosponding
 			cell's `hasShip` prop to true */
-			const dif = coord[0] + len;
-			for (let x = coord[0]; x !== dif; x++) {
-				const cell = this.grid[x][coord[1]]; // Get cell
-				cell.hasShip = true; // Set hasShip to true
-				cell.ship = ship; // Link Cell to Ship
+			let dif = coord[0] + len;
+			/* If X + length of ship is greater than 9,
+			then the ship will go off the board so need to go backwards */
+			if (dif > 9) {
+				dif = coord[0] - len;
+				for (let x = coord[0]; x !== dif; x--) {
+					const cell = this.grid[x][coord[1]]; // Get cell
+					cell.hasShip = true; // Set hasShip to true
+					cell.ship = ship; // Link Cell to Ship
+				}
+			} else {
+				for (let x = coord[0]; x !== dif; x++) {
+					const cell = this.grid[x][coord[1]]; // Get cell
+					cell.hasShip = true; // Set hasShip to true
+					cell.ship = ship; // Link Cell to Ship
+				}
 			}
 		}
 
