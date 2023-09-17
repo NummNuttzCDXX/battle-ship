@@ -2,6 +2,7 @@
 
 import {player1} from '.';
 import {Dom} from './dom';
+import {Computer, Player} from './player';
 
 /**
  * Game Module
@@ -26,12 +27,42 @@ export class Game {
 		this.player2 = null;
 	}
 
+	/**
+	 * Create Player 2 and save to Property `player2`
+	 * - Player 2 will either be a `Player` or `Computer`
+	 * depending on what option is selected on `Start Screen`
+	 */
+	createP2 = () => {
+		const singleBtn = document.querySelector('#single-player');
+		/**
+		 * If the `single-player` radio button is checked,
+		 * will be true, else false
+		 *
+		 * @type {boolean}
+		 */
+		const singlePlayer = singleBtn.checked;
+
+		if (singlePlayer) {
+			// Create Computer
+			this.player2 = new Computer();
+			// Place their ships
+			this.player2.placeComputerShips();
+		} else {
+			this.player2 = new Player('Player 2', 2);
+		}
+	};
+
 	startGame = () => {
 		if (this.game) {
 			throw Error('Error starting game. Cant start game twice');
 		} else {
 			this.game = true;
 		}
+
+		this.createP2();
+		Dom.cellListeners.createCallbacks();
+
+		Dom.toggleStartScreen();
 
 		// Start player1's turn
 		Dom.cellListeners.add(this.turn);

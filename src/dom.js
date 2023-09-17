@@ -324,9 +324,15 @@ export const Dom = (() => {
 		return {makeShipsDraggable, onDrop};
 	})();
 
+	/** Hide/Show Starting Screen */
+	const toggleStartScreen = () => {
+		const startScreen = document.querySelector('.start-screen');
+		startScreen.classList.toggle('hide');
+	};
+
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
-		addHit};
+		addHit, toggleStartScreen};
 })();
