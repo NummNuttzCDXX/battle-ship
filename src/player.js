@@ -103,4 +103,56 @@ export class Computer extends Player {
 
 		return legalMoves;
 	}
+
+	/**
+	 * Place random ships for the `Computer`
+	 */
+	placeComputerShips() {
+		const emptySpaces = this.#getEmptySpaces();
+		const lengths = [5, 4, 3, 3, 2]; // Lengths of ships
+
+		for (let i = 0; i < 5; i++) {
+			// Get name from Length
+			let name;
+			if (i == 0) name = 'aircraft-carrier';
+			else if (i == 1) name = 'battle-ship';
+			else if (i == 2) name = 'destroyer';
+			else if (i == 3) name = 'submarine';
+			else if (i == 4) name = 'patrol-boat';
+			else throw Error('Error placeing Computer Ships');
+
+			// Get random empty space
+			let space = emptySpaces[this.#getRandomNumber(emptySpaces.length)];
+			// If the space already has a ship get another number
+			while (this.board.grid[space[0]][space[1]].hasShip) {
+				space = emptySpaces[this.#getRandomNumber(emptySpaces.length)];
+			}
+
+			const isVerticle = this.#getRandomNumber(4) % 2 == 0 ? true : false;
+
+			// Place ship
+			this.board.placeShip(space, name, lengths[i], isVerticle);
+		}
+	}
+
+	/**
+	 * @private
+	 * Get the spaces that dont have a ship on them
+	 * - So Computer doesnt place 2 ships in the same spot
+	 *
+	 * @return {Number[]} Array of coordinates
+	 */
+	#getEmptySpaces() {
+		const emptySpaces = [];
+		// Loop through Computer Cells
+		for (let x = 0; x < 10; x++) {
+			for (let y = 0; y < 10; y++) {
+				const cell = this.board.grid[x][y];
+				// If cell doesnt have a ship && hasnt been shot
+				if (!cell.hasShip && !cell.shot) emptySpaces.push(cell.coord);
+			}
+		}
+
+		return emptySpaces;
+	}
 }
