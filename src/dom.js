@@ -246,6 +246,8 @@ export const Dom = (() => {
 					const shipImg = document.querySelector(`.${shipName}`);
 
 					realCell.appendChild(shipImg);
+
+					if (cell.shot) addHit(cell.coord, false);
 				// If cell doesnt have ship but HAS been shot
 				} else if (cell.shot) {
 					addMiss(cell.coord, false);
@@ -259,10 +261,10 @@ export const Dom = (() => {
 		// Loop through opponents board to place markers on shot spaces
 		for (const col of oppBoard) {
 			for (const cell of col) {
-				// If cell has been shot
-				if (cell.shot) {
-					addMiss(cell.coord, true);
-				}
+				// If cell has ship and has been shot, add hit
+				if (cell.hasShip && cell.shot) addHit(cell.coord, true);
+				// Else if cell doesnt have a ship but has been shot, add miss
+				else if (cell.shot) addMiss(cell.coord, true);
 			}
 		}
 	};
