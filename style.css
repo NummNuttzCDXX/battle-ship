@@ -85,7 +85,7 @@ fieldset {
 }
 
 .gameboard {
-	--size: 35vw; /* Width/Height of gameboard will both be the same */
+	--size: 30vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
 	height: var(--size);
 
@@ -140,10 +140,9 @@ fieldset {
 }
 
 .ship-container {
-	margin-top: 2rem;
-
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	gap: 1rem;
 }
 
