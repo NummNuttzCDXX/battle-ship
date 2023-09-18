@@ -172,35 +172,35 @@ export const Dom = (() => {
 
 		// Create ship images
 		// Aircraft Carrier
-		const airCarrier = new Image(getCellWidth());
+		const airCarrier = new Image(getCellWidth(), getCellWidth() * 5);
 		airCarrier.classList.add('aircraft-carrier');
 		airCarrier.src = carrier;
 		airCarrier.alt = 'Aircraft Carrier';
 		airCarrier.setAttribute('data', '5');
 
 		// Battle Ship
-		const battleShip = new Image(getCellWidth());
+		const battleShip = new Image(getCellWidth(), getCellWidth() * 4);
 		battleShip.classList.add('battle-ship');
 		battleShip.src = battle;
 		battleShip.alt = 'Battle Ship';
 		battleShip.setAttribute('data', '4');
 
 		// Destroyer
-		const destroyer = new Image(getCellWidth());
+		const destroyer = new Image(getCellWidth(), getCellWidth() * 3);
 		destroyer.classList.add('destroyer');
 		destroyer.src = destroy;
 		destroyer.alt = 'Destroyer';
 		destroyer.setAttribute('data', '3');
 
 		// Submarine
-		const submarine = new Image(getCellWidth());
+		const submarine = new Image(getCellWidth(), getCellWidth() * 3);
 		submarine.classList.add('submarine');
 		submarine.src = sub;
 		submarine.alt = 'Submarine';
 		submarine.setAttribute('data', '3');
 
 		// Patrol Boat
-		const patrolBoat = new Image(getCellWidth());
+		const patrolBoat = new Image(getCellWidth(), getCellWidth() * 2);
 		patrolBoat.classList.add('patrol-boat');
 		patrolBoat.src = patrol;
 		patrolBoat.alt = 'Patrol Boat';
@@ -212,7 +212,14 @@ export const Dom = (() => {
 		shipContainer.appendChild(destroyer);
 		shipContainer.appendChild(submarine);
 		shipContainer.appendChild(patrolBoat);
-		document.querySelector('.content').appendChild(shipContainer);
+
+		// Append Before Second Gameboard -- Ships are between both boards
+		const p2Board = document.querySelector('#player2');
+		const boardContainer = document.querySelector('.board-container');
+		boardContainer.insertBefore(shipContainer, p2Board);
+
+		// shipContainer keeps static width
+		shipContainer.style.width = shipContainer.clientWidth + 'px';
 
 		// Allow ships to be 'dragged'
 		dragDrop.makeShipsDraggable();
@@ -244,6 +251,7 @@ export const Dom = (() => {
 					// Place ship inside cell
 					const shipName = cell.ship.name;
 					const shipImg = document.querySelector(`.${shipName}`);
+					shipImg.style.height = getCellWidth() * cell.ship.length + 'px';
 
 					realCell.appendChild(shipImg);
 
