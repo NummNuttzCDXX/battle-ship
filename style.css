@@ -144,6 +144,17 @@ fieldset {
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
+	position: relative;
+}
+
+/* 
+- Container will have .column when the images should be rotated inside container
+- Just flipping the container to 'flex-direction: column;' doesnt orient imgs properly
+- Instead, 'absolutely' position images and set position properties with javascript
+('top:' prop will be different for each image)
+*/
+.ship-container.column img {
+	position: absolute;
 }
 
 .gameboard .col .cell img {
@@ -155,6 +166,11 @@ fieldset {
 .rotate {
 	transform: rotate(-90deg);
 	z-index: 2;
+}
+
+.rotate-btn {
+	position: absolute;
+	top: 0;
 }
 
 .start {
