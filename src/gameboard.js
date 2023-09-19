@@ -80,56 +80,45 @@ export class Gameboard {
 		if (coord[0] > 9 || coord[1] > 9) throw new Error('Invalid coordinate');
 		else if (len > 5 || len < 2) throw new Error('Invalid ship length');
 
-		const ship = new Ship(name, len);
+		const ship = new Ship(name, len, isVerticle);
 		this.activeShips.push(ship);
 
 		if (isVerticle) {
-			/* Set y equal to `coord`s Y coord
-			loop while y doesnt equal y - length of ship
-			we decrement y to move Y coord down and set the cells
-			`hasShip` prop to true */
-
-			let dif = coord[1] - len;
-			// If dif <= 0 then itll go off the board and need to increment
+			const dif = coord[1] - len;
+			// Check if Ship will go off the board
 			if (dif < 0) {
-				dif = coord[1] + len;
-				for (let y = coord[1]; y !== dif; y++) {
-					// Get cell and set hasShip to true
+				// If ship will go off the board, place ship from bottom edge
+				for (let y = 0; y < len; y++) {
 					const cell = this.grid[coord[0]][y];
 					cell.hasShip = true;
-					cell.ship = ship; // Link Cell to Ship
+					cell.ship = ship; // Link cell to Ship
 				}
-			} else {
+			// Else if ship wont go off the board
+			} else if (dif >= 0) {
 				for (let y = coord[1]; y !== dif; y--) {
 					// Get cell and set hasShip to true
 					const cell = this.grid[coord[0]][y];
 					cell.hasShip = true;
 					cell.ship = ship; // Link Cell to Ship
 				}
-			}
+			} else throw Error('Error placing ship');
+		// Else ship is horizontal (left to right)
 		} else {
-			// Else ship goes from left to right
-			/* Set x equal to `coord`s X coord
-			loop while x doesnt equal x + length of ship
-			increment x to move the X coord up and set the corrosponding
-			cell's `hasShip` prop to true */
-			let dif = coord[0] + len;
-			/* If X + length of ship is greater than 9,
-			then the ship will go off the board so need to go backwards */
+			const dif = Number(coord[0]) + (len - 1);
+			// If placement goes off the board
 			if (dif > 9) {
-				dif = coord[0] - len;
-				for (let x = coord[0]; x !== dif; x--) {
-					const cell = this.grid[x][coord[1]]; // Get cell
-					cell.hasShip = true; // Set hasShip to true
-					cell.ship = ship; // Link Cell to Ship
+				for (let x = 9; x > 9 - len; x--) {
+					const cell = this.grid[x][coord[1]];
+					cell.hasShip = true;
+					cell.ship = ship;
 				}
-			} else {
-				for (let x = coord[0]; x !== dif; x++) {
-					const cell = this.grid[x][coord[1]]; // Get cell
-					cell.hasShip = true; // Set hasShip to true
-					cell.ship = ship; // Link Cell to Ship
+			} else if (dif <= 9) {
+				for (let x = coord[0]; x <= dif; x++) {
+					const cell = this.grid[x][coord[1]];
+					cell.hasShip = true;
+					cell.ship = ship;
 				}
-			}
+			} else throw Error('Error placing ship');
 		}
 
 		return ship;

@@ -26,10 +26,10 @@ cells.forEach((cell) => {
 		const isVerticle = ship.classList[1] ? false : true;
 
 		const coord = [
-			cell.parentElement.getAttribute('data'),
-			cell.getAttribute('data'),
+			Number(cell.parentElement.getAttribute('data')),
+			Number(cell.getAttribute('data')),
 		];
-		player1.board.placeShip(coord, shipName, ship.getAttribute('data'),
+		player1.board.placeShip(coord, shipName, Number(ship.getAttribute('data')),
 			isVerticle);
 
 		// Check if all ships are placed

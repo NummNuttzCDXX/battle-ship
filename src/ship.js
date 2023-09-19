@@ -4,9 +4,11 @@
 export class Ship {
 	/**
 	 * The ship has properties
+	 * - name
 	 * - `len`gth
 	 * - hits
 	 * - sunk {boolean}
+	 * - verticle {boolean}
 	 *
 	 * @param {string} name Name of ship:
 	 * - Carrier
@@ -16,10 +18,13 @@ export class Ship {
 	 * - Patrol
 	 * @param {number} len Length
 	 * - Represents length of ship in `units` on the gameboard
+	 * @param {boolean} [isVerticle=true] Is the Ship placed vertically?
+	 * (up & down)
 	 */
-	constructor(name, len) {
+	constructor(name, len, isVerticle = true) {
 		this.name = name;
 		this.length = len;
+		this.isVerticle = isVerticle;
 		this.hits = 0;
 		this.sunk = false;
 	}

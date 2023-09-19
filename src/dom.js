@@ -333,7 +333,40 @@ export const Dom = (() => {
 			event.preventDefault();
 			const data = event.dataTransfer.getData('text'); // Get data
 			const ship = document.querySelector(`[src="${data}"]`); // Get ship
-			event.target.appendChild(ship); // Add ship to cell
+			const cell = event.target;
+
+			// Check if img goes off of the board
+			// If ship is rotated (horizontal)
+			if (ship.classList[1]) {
+				// Get X coord
+				const currentX = Number(cell.parentElement.getAttribute('data'));
+				// If X plus length of ship is off the board
+				if (currentX + (ship.getAttribute('data') - 1) > 9) {
+					const length = ship.getAttribute('data') - 1; // Get Ship length
+					// Select col(X) to place ship
+					const x = document.querySelector(`.col[data="${9 - length}"]`);
+					const yCoord = cell.getAttribute('data');
+					// Select correct cell of column(x) to append Ship
+					x.children[yCoord].appendChild(ship);
+				} else {
+					cell.appendChild(ship); // Add ship to cell
+				}
+			// Else ship is Verticle
+			} else {
+				const currentY = cell.getAttribute('data');
+				// If current placement of Ship will be off the board
+				if (currentY - (ship.getAttribute('data') - 1) < 0) {
+					const length = ship.getAttribute('data') - 1;
+					// Append Ship to the last available place
+					cell.parentElement.children[length].appendChild(ship);
+				} else {
+					cell.appendChild(ship); // Add ship to cell
+				}
+			}
+
+			// Remove placement styles that were only needed for '.ship-container'
+			ship.style.top = '';
+			ship.style.left = '';
 
 			return ship;
 		};
