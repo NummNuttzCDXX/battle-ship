@@ -170,6 +170,13 @@ export const Dom = (() => {
 		const shipContainer = document.createElement('div');
 		shipContainer.classList.add('ship-container');
 
+		// Add 'rotate' button
+		const rotateBtn = document.createElement('button');
+		rotateBtn.setAttribute('type', 'button');
+		rotateBtn.classList.add('rotate-btn');
+		rotateBtn.textContent = 'Rotate';
+		shipContainer.appendChild(rotateBtn);
+
 		// Create ship images
 		// Aircraft Carrier
 		const airCarrier = new Image(getCellWidth(), getCellWidth() * 5);
@@ -334,6 +341,58 @@ export const Dom = (() => {
 		return {makeShipsDraggable, onDrop};
 	})();
 
+	/**
+	 * Rotate the ship image
+	 */
+	const rotateShips = () => {
+		const ships = document.querySelectorAll('.ship-container img');
+		let spacing = 4; // Space from the top
+		ships.forEach((ship) => {
+			ship.style.transformOrigin = calcTransformOrigin(ship);
+			ship.classList.toggle('rotate'); // Toggle rotate class
+			ship.style.top = spacing + 'rem'; // Set space from the top in rem's
+			centerShipInContainer(ship); // Center img on X axis
+			spacing += 2; // Increment space
+		});
+
+		/**
+		 * Center the ship img inside `.ship-container` on X axis
+		 *
+		 * @param {HTMLImageElement} img Ship Image to center
+		 */
+		function centerShipInContainer(img) {
+			const container = document.querySelector('.ship-container');
+			const width = container.clientWidth;
+			// Get img height (Height is really width but img is rotated)
+			const imgWidth = img.clientHeight;
+
+			img.style.left = (width / 2) - (imgWidth / 2) + 'px';
+		};
+	};
+
+	/**
+	 * Calculate the `transform-origin` the Ship Image
+	 * needs to be in order to rotate correctly
+	 *
+	 * @param {HTMLImageElement} shipImg
+	 *
+	 * @return {string} The value that `transform-origin` style
+	 * needs to be
+	 */
+	const calcTransformOrigin = (shipImg) => {
+		/* When the ship rotates on screen, the Origin of rotation needs to be
+		the center of the first cell the ship is in, otherwise it will be the
+		center of the image and it wont be positioned correctly.
+
+		Need to get the percentage of the image that is inside the first cell,
+		then set half of that as the Transform Origin. */
+		const length = shipImg.getAttribute('data');
+		/** @type {number} Percentage of img to rotate at */
+		const transOrigin = (100 / length) / 2;
+
+		return `50% ${transOrigin}%`;
+	};
+
 	/** Hide/Show Starting Screen */
 	const toggleStartScreen = () => {
 		const startScreen = document.querySelector('.start-screen');
@@ -344,5 +403,5 @@ export const Dom = (() => {
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
-		addHit, toggleStartScreen};
+		addHit, toggleStartScreen, rotateShips};
 })();

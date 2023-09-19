@@ -40,6 +40,14 @@ cells.forEach((cell) => {
 	});
 });
 
+// Rotate Ships on btn click
+const rotateBtn = document.querySelector('.rotate-btn');
+rotateBtn.addEventListener('click', () => {
+	Dom.rotateShips(); // Rotate ships inside container
+	// Flip container to column instead of row
+	document.querySelector('.ship-container').classList.toggle('column');
+});
+
 // Start Game on click
 const startBtn = document.querySelector('.start');
 startBtn.addEventListener('click', () => {

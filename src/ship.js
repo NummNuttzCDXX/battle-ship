@@ -39,24 +39,4 @@ export class Ship {
 	isSunk = () => {
 		return this.hits >= this.length ? true : false;
 	};
-
-	/**
-	 * Calculate the `transform-origin` the Ship Image
-	 * needs to be in order to rotate correctly
-	 *
-	 * @return {string} The value that `transform-origin` style
-	 * needs to be
-	 */
-	calcTransformOrigin = () => {
-		/* When the ship rotates on screen, the Origin of rotation needs to be
-		the center of the first cell the ship is in, otherwise it will be the
-		center of the image and it wont be positioned correctly.
-
-		Need to get the percentage of the image that is inside the first cell,
-		then set half of that as the Transform Origin. */
-		/** @type {number} Percentage of img to rotate at */
-		const transOrigin = (100 / this.length) / 2;
-
-		return `50% ${transOrigin}%`;
-	};
 }
