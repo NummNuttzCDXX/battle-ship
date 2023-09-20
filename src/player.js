@@ -27,6 +27,8 @@ export class Player {
 	 * your move at
 	 * - `Cell`/Space on the gameboard
 	 * @param {Player | Computer} otherPlayer Your opponent
+	 *
+	 * @return {data} Object containing data about the attack
 	 */
 	makeMove(cell, otherPlayer) {
 		const coord = [
@@ -35,10 +37,15 @@ export class Player {
 		];
 
 		// Attack opponent
-		otherPlayer.board.recieveAttack(coord);
+		const attackData = otherPlayer.board.recieveAttack(coord);
+
+		// If cell was already shot, dont remove listener, just return data
+		if (attackData.alreadyShot) return attackData;
 
 		// Remove all listeners for Player
 		Dom.cellListeners.remove(this.player);
+
+		return attackData;
 	}
 }
 
@@ -58,6 +65,8 @@ export class Computer extends Player {
 	/**
 	 * Make a random, legal move
 	 * @param {Player} opponent Player 1
+	 *
+	 * @return {data|object} Object containing move data
 	 */
 	makeRandomMove() {
 		const legalMoves = this.#getLegalMoves();
@@ -72,7 +81,7 @@ export class Computer extends Player {
 				.children[legalMoves[num][1]];
 
 		// Make Move
-		this.makeMove(cell, player1);
+		return this.makeMove(cell, player1);
 	}
 
 	/**

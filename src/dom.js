@@ -7,7 +7,7 @@ import destroy from './assets/img/destroyer.svg'; // 3
 import sub from './assets/img/submarine.svg'; // 3
 import patrol from './assets/img/patrol.svg'; // 2
 import xIcon from './assets/img/x-icon.svg';
-import {Player, Computer} from './player';
+import {Player, Computer} from './player'; // eslint-disable-line no-unused-vars
 import {player1, game} from '.';
 
 export const Dom = (() => {
@@ -88,17 +88,21 @@ export const Dom = (() => {
 					// For each cell, create player1 callback
 					const player1Callback = () => {
 						// Make player1's move
-						player1.makeMove(cell, game.player2);
+						const data = player1.makeMove(cell, game.player2);
+						printMoveInfo(data); // Print out what happened this turn
 
-						game.makeMove();
+						// If cell is not already shot
+						if (!data.alreadyShot) game.makeMove(); // Switch turns, etc.
 					};
 					column1.push(player1Callback); // Push callback
 
 					// Create player2 callback
 					const player2Callback = () => {
-						game.player2.makeMove(cell, player1);
+						const data = game.player2.makeMove(cell, player1);
+						printMoveInfo(data);
 
-						game.makeMove();
+						// If cell is not already shot
+						if (!data.alreadyShot) game.makeMove(); // Switch turns, etc.
 					};
 					column2.push(player2Callback); // push
 				});
@@ -308,6 +312,66 @@ export const Dom = (() => {
 	};
 
 	/**
+	 * Print the move information to screen
+	 * - What happened this turn?
+	 * - Ex:
+	 * 	- "Player1 sunk your Battle Ship!"
+	 * 	- "Player2 shot and missed!"
+	 * 	- "Hit!"
+	 *
+	 * @param {object|data} data Attack data
+	 */
+	const printMoveInfo = (data) => {
+		// If a ship was hit, get the name
+		let name;
+		if (data.ship) {
+			// Get ship name and split the '-' if there is one
+			name = data.ship.split('-');
+			// Capitalize the first letter in each word in the array
+			for (let i = 0; i < name.length; i++) {
+				const first = name[i].slice(0, 1);
+				const cap = name[i].replace(first, first.toUpperCase());
+				name[i] = cap;
+			};
+		}
+
+		// Parse through data and create message to print
+		let msg = '';
+		/* If p2 is an AI & P1's turn
+		Display different messages if Opponent is Computer,
+		since the Computer doesnt need to see the message */
+		if (game.player2.ai && game.turn == 1) {
+			if (data.sunk) {
+				// Set message
+				msg += `You sunk Player 2's ${name.join(' ')}!!`;
+			} else if (data.hit) {
+				msg += `You hit Player 2's ${name.join(' ')}!`;
+			} else if (data.miss) {
+				msg += `You shot and missed!`;
+			}
+		} else {
+			msg = `Player ${data.player} `;
+			if (data.sunk) {
+				// Set message
+				msg += `sunk your ${name.join(' ')}!!`;
+			} else if (data.hit) {
+				msg += `hit your ${name.join(' ')}!`;
+			} else if (data.miss) {
+				msg += `shot and missed!`;
+			}
+		}
+
+		const element = document.querySelector('.move-info .info');
+		// If cell has already been shot, print it to screen
+		if (data.alreadyShot) {
+			msg = 'Cell has already been shot! <br> Please go again';
+			element.innerHTML = msg;
+		} else {
+			element.textContent = msg;
+		}
+	};
+
+	/**
 	 * Drag and Drop Module holding methods needed
 	 * for dragging and dropping `Ship` images
 	 * - Separate module for organization
@@ -459,5 +523,5 @@ export const Dom = (() => {
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
-		addHit, toggleStartScreen, rotateShips};
+		addHit, toggleStartScreen, rotateShips, printMoveInfo};
 })();

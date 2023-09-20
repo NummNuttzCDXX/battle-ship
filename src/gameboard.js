@@ -130,19 +130,43 @@ export class Gameboard {
 	 * - Send `hit()` to correct `Ship`
 	 *
 	 * @param {number[]} coord Array of coordinates
+	 *
+	 * @return {data} Holds attack data
+	 * - Hit ship?
+	 * - Miss?
 	 */
 	recieveAttack(coord) {
 		const cell = this.grid[coord[0]][coord[1]];
+
+		/**
+		 * - Return what happened during the attack
+		 * - Properties will be `undefined` if they are
+		 * irrelevant
+		 * @typedef {object} data about the attack
+		 * @property {number} player - `1` or `2`
+		 * - Which player attacked
+		 * @property {?boolean} hit Was the attack a hit?
+		 * @property {?string} ship Name of ship that was hit
+		 * @property {?boolean} sunk Did the attack sink the ship?
+		 * @property {?boolean} miss Did the attack miss?
+		 * @property {?boolean} alreadyShot Has the cell already been shot?
+		 */
+		const data = {};
+		data.player = this.player === 1 ? 2 : 1;
 		// Check if cell has been shot already
-		// Throw Error FOR NOW
-		if (cell.shot) throw Error('Cell has already been shot');
-		else {
+		if (cell.shot) {
+			data.alreadyShot = true;
+			return data;
+		} else {
 			cell.shot = true;
 			this.shotsTaken.push(coord); // Record shot
 		}
 
 		// Check if attack hit a ship
 		if (cell.hasShip) {
+			data.hit = true; // Log data
+			data.ship = cell.ship.name;
+
 			cell.ship.hit(); // Hit ship
 
 			// Add hit to board
@@ -151,6 +175,8 @@ export class Gameboard {
 
 			// Check if ship is sunk
 			if (cell.ship.isSunk()) {
+				data.sunk = true;
+
 				// Find index of ship in `activeShips`
 				const index = this.activeShips.indexOf(cell.ship);
 				// Error check
@@ -166,6 +192,8 @@ export class Gameboard {
 			}
 		// Else shot missed
 		} else {
+			data.miss = true; // Log miss
+
 			// Add miss
 			if (this.player === 1) {
 				Dom.addMiss(coord, false);
@@ -173,6 +201,8 @@ export class Gameboard {
 				Dom.addMiss(coord, true);
 			}
 		}
+
+		return data;
 	}
 
 	/**

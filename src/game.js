@@ -68,9 +68,9 @@ export class Game {
 		Dom.cellListeners.createCallbacks();
 		Dom.renderGameboards(player1, this.player2);
 
-		Dom.toggleStartScreen();
-
-		// Start player1's turn
+		// Start P1 turn
+		document.querySelector('.move-info .turn')
+			.textContent = `Player 1's turn`;
 		Dom.cellListeners.add(this.turn);
 	};
 
@@ -84,6 +84,10 @@ export class Game {
 
 		this.#switchTurns();
 
+		// Display whos turn it is
+		document.querySelector('.move-info .turn')
+			.textContent = `Player ${this.turn}'s turn`;
+
 		// If its p1's turn
 		if (this.turn === 1) {
 			// If p2 is not an AI, render board
@@ -93,7 +97,8 @@ export class Game {
 		// If p2 is computer and its their turn
 		} else if (this.player2.ai && this.turn === 2) {
 			// AI makes their move
-			this.player2.makeRandomMove();
+			const data = this.player2.makeRandomMove();
+			Dom.printMoveInfo(data);
 
 			// Switch turns and add p1 listeners
 			this.makeMove();
