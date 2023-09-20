@@ -58,9 +58,15 @@ export class Game {
 		} else {
 			this.game = true;
 		}
+		// Set turn to 1
+		this.turn = 1;
 
-		this.createP2();
+		// Hide ship container
+		document.querySelector('.ship-container').style.visibility = 'hidden';
+
+		// Create move callbacks and render p1 board
 		Dom.cellListeners.createCallbacks();
+		Dom.renderGameboards(player1, this.player2);
 
 		Dom.toggleStartScreen();
 
@@ -80,6 +86,9 @@ export class Game {
 
 		// If its p1's turn
 		if (this.turn === 1) {
+			// If p2 is not an AI, render board
+			// Board doesnt have to change if p2 is Computer
+			if (!this.player2.ai) Dom.renderGameboards(player1, this.player2);
 			Dom.cellListeners.add(this.turn); // Add p1 listeners
 		// If p2 is computer and its their turn
 		} else if (this.player2.ai && this.turn === 2) {
@@ -96,6 +105,38 @@ export class Game {
 		} else {
 			throw Error('Error making a move');
 		}
+	};
+
+	/**
+	 * Allow p2 to place their ships
+	 * - Render p2's gameboard
+	 * - Get all the Ship imgs and place them back in
+	 * their `.ship-container`
+	 *
+	 * @return {void}
+	 */
+	p2PlaceShips = () => {
+		// Dont run if P1 Ships arent placed
+		if (document.querySelector('.ship-container').children.length !== 1) return;
+
+		// Switch Gameboards
+		Dom.renderGameboards(this.player2, player1);
+		this.#switchTurns();
+
+		// Get Ship imgs in the correct order
+		const shipImgs = [
+			document.querySelector('.aircraft-carrier'),
+			document.querySelector('.battle-ship'),
+			document.querySelector('.destroyer'),
+			document.querySelector('.submarine'),
+			document.querySelector('.patrol-boat'),
+		];
+		shipImgs.forEach((img) => {
+			const container = document.querySelector('.ship-container');
+			container.classList.remove('column');
+			img.classList.remove('rotate'); // Reset img if its rotated
+			container.appendChild(img); // Add back to container
+		});
 	};
 
 	gameOver = () => {

@@ -29,13 +29,36 @@ cells.forEach((cell) => {
 			Number(cell.parentElement.getAttribute('data')),
 			Number(cell.getAttribute('data')),
 		];
-		player1.board.placeShip(coord, shipName, Number(ship.getAttribute('data')),
-			isVerticle);
+
+		// If p1's turn, place in their board
+		if (game.turn === 1) {
+			player1.board.placeShip(
+				coord,
+				shipName,
+				Number(ship.getAttribute('data')),
+				isVerticle,
+			);
+
+			// If all p1 ships are placed and p2 is not an AI
+			if (player1.board.activeShips.length === 5 &&
+				!game.player2.ai) {
+				// Let p2 place their ships
+				game.p2PlaceShips();
+			}
+
+		// If p2 is not an AI && its p2 turn
+		} else if (!game.player2.ai && game.turn === 2) {
+			// Place in p2 board
+			game.player2.board.placeShip(coord, shipName,
+				Number(ship.getAttribute('data')),
+				isVerticle);
+		}
 
 		// Check if all ships are placed
-		if (document.querySelector('.ship-container').children.length === 0) {
-			// Enable 'Start Button'
-			document.querySelector('.start').disabled = false;
+		if (player1.board.activeShips.length === 5 &&
+			game.player2.board.activeShips.length === 5) {
+			// Start Game
+			game.startGame();
 		}
 	});
 });
@@ -48,9 +71,9 @@ rotateBtn.addEventListener('click', () => {
 	document.querySelector('.ship-container').classList.toggle('column');
 });
 
-// Start Game on click
+// Create p2 and hide Start Screen on click
 const startBtn = document.querySelector('.start');
 startBtn.addEventListener('click', () => {
-	// Start game
-	game.startGame();
+	game.createP2();
+	Dom.toggleStartScreen();
 });
