@@ -12,6 +12,7 @@
 	--blue: #0d21a1ff;
 	--night: #141414ff;
 	--antiflash-white: #eef0f2ff;
+	--gray: rgba(96, 96, 96, 0.682);
 	--saffron: #eec643ff;
 }
 
@@ -22,6 +23,9 @@ body {
 
 	min-width: 100vw;
 	min-height: 100vh;
+
+	background-color: var(--dark-blue);
+	color: var(--saffron);
 }
 
 header {
@@ -55,8 +59,25 @@ header h1 {
 	color: var(--saffron);
 }
 
+button {
+	font: inherit;
+	font-size: .8em;
+	border-color: var(--saffron);
+	border-radius: .4rem;
+	background-color: var(--blue);
+	color: var(--saffron);
+
+	width: fit-content;
+	height: fit-content;
+	margin-top: .5em;
+	padding: .3em;
+}
+
 form {
 	width: 25%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 fieldset {
@@ -64,6 +85,8 @@ fieldset {
 	flex-direction: column;
 	align-items: center;
 	gap: .5em;
+
+	width: 80%;
 }
 
 .hide, .start-screen.hide {
@@ -88,11 +111,12 @@ fieldset {
 	--size: 30vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
 	height: var(--size);
+	box-sizing: content-box;
 
 	display: flex;
 	position: relative;
 
-	border: 2px solid black;
+	border: .3rem solid var(--blue);
 	background-color: blue;
 }
 
@@ -100,22 +124,24 @@ fieldset {
 	display: flex;
 	flex-direction: column-reverse;
 	flex: 1;
-
-	border-left: 2px solid black;
-	border-right: 2px solid black;
 }
 
 .cell {
 	position: relative;
 
 	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-	border-top: 2px solid black;
-	border-bottom: 2px solid black;
+	border: 2px solid var(--night);
 }
 
-.cell img {
+/* Give the Ship imgs an offset inside the '.cell's
+so they arent touching the very top of the .cell */
+.cell img:not(.x-icon) {
 	position: absolute;
+	top: 8%;
 }
 
 /* Water like pattern */
@@ -140,10 +166,15 @@ fieldset {
 }
 
 .ship-container {
+	padding: .5rem;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
+
+	background-color: var(--gray);
+	border-radius: 1.5rem;
 	position: relative;
 }
 
@@ -170,7 +201,7 @@ fieldset {
 
 .rotate-btn {
 	position: absolute;
-	top: 0;
+	top: .5rem;
 }
 
 .start {
