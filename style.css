@@ -177,6 +177,10 @@ fieldset {
 	height: fit-content;
 }
 
+.move-info p {
+	text-align: center;
+}
+
 .x-icon {
 	/* Color Icon Red */
 	filter: invert(14%) sepia(90%) saturate(5380%) hue-rotate(2deg) brightness(106%) contrast(125%);
