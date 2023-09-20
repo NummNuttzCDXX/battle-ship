@@ -96,12 +96,14 @@ export class Game {
 			Dom.cellListeners.add(this.turn); // Add p1 listeners
 		// If p2 is computer and its their turn
 		} else if (this.player2.ai && this.turn === 2) {
-			// AI makes their move
-			const data = this.player2.makeRandomMove();
-			Dom.printMoveInfo(data);
-
-			// Switch turns and add p1 listeners
-			this.makeMove();
+			// 2 second delay
+			setTimeout(() => {
+				// AI makes their move
+				const data = this.player2.makeRandomMove();
+				Dom.printMoveInfo(data);
+				// Switch turns and add p1 listeners
+				this.makeMove();
+			}, 2000);
 		// If p2 is NOT an AI and its their turn
 		} else if (!this.player2.ai && this.turn === 2) {
 			// Switch Gameboards // Render p2 gameboard
