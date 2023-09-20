@@ -260,12 +260,23 @@ export const Dom = (() => {
 					const shipImg = document.querySelector(`.${shipName}`);
 					shipImg.style.height = getCellWidth() * cell.ship.length + 'px';
 
+					// Check verticallity(?)
+					if (cell.ship.isVerticle) shipImg.classList.remove('rotate');
+					else shipImg.classList.add('rotate');
+
 					realCell.appendChild(shipImg);
 
 					if (cell.shot) addHit(cell.coord, false);
 				// If cell doesnt have ship but HAS been shot
 				} else if (cell.shot) {
 					addMiss(cell.coord, false);
+				// Else cell hasnt been touch
+				} else {
+					// Remove hit class and X Icon, if it has it
+					realCell.classList.remove('hit');
+					if (realCell.querySelector('.x-icon')) {
+						realCell.querySelector('.x-icon').remove();
+					}
 				}
 			}
 		}
@@ -276,10 +287,22 @@ export const Dom = (() => {
 		// Loop through opponents board to place markers on shot spaces
 		for (const col of oppBoard) {
 			for (const cell of col) {
+				const realCell =
+					document.querySelector(`#player2 .col[data="${cell.coord[0]}"]`)
+						.querySelector(`.cell[data="${cell.coord[1]}"]`);
+
 				// If cell has ship and has been shot, add hit
 				if (cell.hasShip && cell.shot) addHit(cell.coord, true);
 				// Else if cell doesnt have a ship but has been shot, add miss
 				else if (cell.shot) addMiss(cell.coord, true);
+				// Else cell hasnt been touched
+				else {
+					// Remove hit class and X Icon, if it has it
+					realCell.classList.remove('hit');
+					if (realCell.querySelector('.x-icon')) {
+						realCell.querySelector('.x-icon').remove();
+					}
+				}
 			}
 		}
 	};
