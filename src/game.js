@@ -130,6 +130,9 @@ export class Game {
 		Dom.renderGameboards(this.player2, player1);
 		this.#switchTurns();
 
+		const container = document.querySelector('.ship-container');
+		container.classList.remove('column');
+
 		// Get Ship imgs in the correct order
 		const shipImgs = [
 			document.querySelector('.aircraft-carrier'),
@@ -139,8 +142,7 @@ export class Game {
 			document.querySelector('.patrol-boat'),
 		];
 		shipImgs.forEach((img) => {
-			const container = document.querySelector('.ship-container');
-			container.classList.remove('column');
+			img.setAttribute('draggable', 'true'); // Make draggable again
 			img.classList.remove('rotate'); // Reset img if its rotated
 			container.appendChild(img); // Add back to container
 		});

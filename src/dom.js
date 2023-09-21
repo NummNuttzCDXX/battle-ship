@@ -406,6 +406,90 @@ export const Dom = (() => {
 		 */
 		const onDrag = (event) => {
 			event.dataTransfer.setData('text', event.target.className);
+			event.target.classList.add('dragging');
+		};
+
+		/**
+		 * On dragover,
+		 * 1. Need to prevent the default action on 'dragover events'
+		 * 2. Highlight the squares that the Ship will be placed in,
+		 * the square thats being dragged over plus however long the Ship is
+		 *
+		 * @param {Event} e
+		 */
+		const dragover = (e) => {
+			e.preventDefault(); // Prevent default action
+
+			/** @type {HTMLDivElement} */
+			const hoveredCell = e.target;
+			const draggedShip = document.querySelector('.dragging');
+			const length = Number(draggedShip.getAttribute('data'));
+
+			const xCoord = Number(hoveredCell.parentElement.getAttribute('data'));
+			const yCoord = Number(hoveredCell.getAttribute('data'));
+
+			// Add 'hover' class to cells the Ship will be placed on
+			// If Ship is rotated (horizontal)
+			if (draggedShip.classList.contains('rotate')) {
+				// Iterate through X coords
+				for (let x = xCoord, i = length; x < xCoord + length; x++, i--) {
+					const col = document.querySelector(`.col[data="${x}"]`);
+
+					// If the Ship img is off the board so `col` doesnt exist
+					if (!col) {
+						/* `i` == how many cells are off the board
+						loop `i` times and select the cell where the Ship WOULD be placed */
+						for (let j = i; j > 0; j--) {
+							const cell = document.querySelector(`.col[data="${xCoord - j}"]`)
+								.querySelector(`.cell[data="${yCoord}"]`);
+							cell.classList.add('hover', 'placing'); // Temp Class
+						}
+					} else {
+						const cell = col.querySelector(`.cell[data="${yCoord}"]`);
+						cell.classList.add('hover');
+					}
+				}
+			} else {
+				// Iterate through Y coords
+				for (let y = yCoord, i = length; y > yCoord - length; y--, i--) {
+					const col = document.querySelector(`.col[data="${xCoord}"]`);
+					const cell = col.querySelector(`.cell[data="${y}"]`);
+					console.log(cell);
+
+					if (!cell) {
+						for (let j = i; j > 0; j--) {
+							const cell = col.querySelector(`.cell[data="${yCoord + j}"]`);
+							cell.classList.add('hover', 'placing');
+						}
+					} else {
+						cell.classList.add('hover');
+					}
+				}
+			}
+
+			const cells = document.querySelectorAll('.cell.hover');
+			cells.forEach((cell) => {
+				const coord = [
+					cell.parentElement.getAttribute('data'),
+					cell.getAttribute('data'),
+				];
+
+				// Remove 'hover' class if Ship is not about to be placed their
+				// '.cell's should only have '.hover' if the ship is being placed there
+				if (draggedShip.classList.contains('rotate') &&
+				!cell.classList.contains('placing') && (coord[0] >= xCoord + length ||
+				coord[0] < xCoord || coord[1] != yCoord)) {
+					cell.classList.remove('hover');
+				} else if (!draggedShip.classList.contains('rotate') &&
+				!cell.classList.contains('placing') && (coord[0] != xCoord ||
+				coord[1] <= yCoord - length || coord[1] > yCoord)) {
+					cell.classList.remove('hover');
+				}
+			});
+
+			// Remove temp 'placing' class
+			const tempCells = document.querySelectorAll('.cell.placing');
+			tempCells.forEach((cell) => cell.classList.remove('placing'));
 		};
 
 		/**
@@ -420,6 +504,7 @@ export const Dom = (() => {
 			event.preventDefault();
 			const data = event.dataTransfer.getData('text'); // Get data
 			const ship = document.querySelector(`[src="${data}"]`); // Get ship
+			ship.classList.remove('dragging');
 			const cell = event.target;
 
 			// Check if img goes off of the board
@@ -454,11 +539,43 @@ export const Dom = (() => {
 			// Remove placement styles that were only needed for '.ship-container'
 			ship.style.top = '';
 			ship.style.left = '';
+			ship.setAttribute('draggable', false);
+
+			// Remove 'hover' class from cells
+			const hoveredCells = document.querySelectorAll('.cell.hover');
+			hoveredCells.forEach((cell) => cell.classList.remove('hover'));
 
 			return ship;
 		};
 
-		return {makeShipsDraggable, onDrop};
+		/**
+		 * Drag/Drop Function for the `.ship-container`
+		 * - Remove `dragging` class from `Ship` imgs inside the container
+		 * - Remove `hover` class from `.cell`s
+		 *
+		 * @example If User drags a Ship from the container and hovers over the
+		 * board (`.dragging` & `.hover` are added to elements) and they change
+		 * their mind about what Ship to place at that time.
+		 * The 2 classes will still be on those elements, `.cell`s will be
+		 * highlighted and multiple ships will have `.dragging` which will mess
+		 * up how many `.cell`s are highlighted. This `Event Listener` callback
+		 * should fix that (mostly)
+		 *
+		 * @param {Event} e
+		 */
+		const shipContainerReset = (e) => {
+			e.preventDefault();
+			const container = document.querySelector('.ship-container');
+			// Remove 'dragging' class from Ships
+			Array.from(container.children)
+				.forEach((child) => child.classList.remove('dragging'));
+
+			// Remove 'hover' class from Cells
+			const hoveredCells = document.querySelectorAll('.cell.hover');
+			hoveredCells.forEach((cell) => cell.classList.remove('hover'));
+		};
+
+		return {makeShipsDraggable, onDrop, dragover, shipContainerReset};
 	})();
 
 	/**

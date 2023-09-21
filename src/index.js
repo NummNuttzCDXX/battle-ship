@@ -16,7 +16,7 @@ Dom.createShips();
 // Allow ships to be dropped inside cells
 const cells = document.querySelectorAll('#player1 .cell');
 cells.forEach((cell) => {
-	cell.addEventListener('dragover', (e) => e.preventDefault());
+	cell.addEventListener('dragover', Dom.dragDrop.dragover);
 
 	cell.addEventListener('drop', (e) => {
 		// Get the ship / Drop the ship into cell
@@ -62,6 +62,11 @@ cells.forEach((cell) => {
 		}
 	});
 });
+
+// Remove 'dragging' class from Ship imgs if they are inside the container still
+const shipContainer = document.querySelector('.ship-container');
+shipContainer.addEventListener('dragover', Dom.dragDrop.shipContainerReset);
+shipContainer.addEventListener('drop', Dom.dragDrop.shipContainerReset);
 
 // Rotate Ships on btn click
 const rotateBtn = document.querySelector('.rotate-btn');
