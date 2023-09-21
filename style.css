@@ -137,6 +137,11 @@ fieldset {
 	border: 2px solid var(--night);
 }
 
+#player1 .cell.hover {
+	background-image: none;
+	background-color: rgb(97, 142, 255);
+}
+
 /* Give the Ship imgs an offset inside the '.cell's
 so they arent touching the very top of the .cell */
 .cell img:not(.x-icon) {
