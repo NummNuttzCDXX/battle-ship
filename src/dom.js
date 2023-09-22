@@ -454,7 +454,6 @@ export const Dom = (() => {
 				for (let y = yCoord, i = length; y > yCoord - length; y--, i--) {
 					const col = document.querySelector(`.col[data="${xCoord}"]`);
 					const cell = col.querySelector(`.cell[data="${y}"]`);
-					console.log(cell);
 
 					if (!cell) {
 						for (let j = i; j > 0; j--) {
@@ -509,7 +508,7 @@ export const Dom = (() => {
 
 			// Check if img goes off of the board
 			// If ship is rotated (horizontal)
-			if (ship.classList[1]) {
+			if (ship.classList.contains('rotate')) {
 				// Get X coord
 				const currentX = Number(cell.parentElement.getAttribute('data'));
 				// If X plus length of ship is off the board
@@ -538,6 +537,7 @@ export const Dom = (() => {
 
 			// Remove placement styles that were only needed for '.ship-container'
 			ship.style.top = '';
+			const oldLeft = ship.style.left;
 			ship.style.left = '';
 			ship.setAttribute('draggable', false);
 
@@ -545,7 +545,7 @@ export const Dom = (() => {
 			const hoveredCells = document.querySelectorAll('.cell.hover');
 			hoveredCells.forEach((cell) => cell.classList.remove('hover'));
 
-			return ship;
+			return {ship: ship, left: oldLeft};
 		};
 
 		/**
@@ -630,6 +630,74 @@ export const Dom = (() => {
 		return `50% ${transOrigin}%`;
 	};
 
+	/**
+	 * Reset the Ships position inside `.ship-container`
+	 * - Used when the Ship placement is invalid and the image
+	 * doesnt get placed inside the `.cell`
+	 *
+	 * @param {HTMLImageElement} img Ship Image
+	 */
+	const shipReset = (img) => {
+		// Set attr / remove class
+		img.setAttribute('draggable', 'true');
+		img.classList.remove('dragging');
+
+		const container = document.querySelector('.ship-container');
+		// If img is rotated
+		if (img.classList.contains('rotate')) {
+			// Img will have 'pos: absolute;' so need to place correctly
+			const children = container.children;
+			// Try to put ship in same spot it was
+			let prevChildTop = children[1].style.top.split('rem')[0];
+			if (prevChildTop != 4) {
+				container.insertBefore(img, children[1]);
+				img.style.top = '4rem';
+				return;
+			}
+
+			// Loop through children and check their 'top' value
+			for (let i = 2; i < children.length; i++) {
+				const child = children[i];
+				const currentChildTop = child.style.top.split('rem')[0];
+
+				if (currentChildTop != Number(prevChildTop) + 2) {
+					img.style.top = Number(prevChildTop) + 2 + 'rem';
+					container.insertBefore(img, child);
+					break;
+				} else {
+					prevChildTop = currentChildTop;
+				}
+			}
+
+			if (img.parentElement != container) {
+				img.style.top = Number(prevChildTop) + 2 + 'rem';
+				container.appendChild(img);
+			}
+
+			// Center ship X axis
+			const width = container.clientWidth;
+			const imgWidth = img.clientHeight;
+			img.style.left = (width / 2) - (imgWidth / 2) + 'px';
+		} else {
+			const order = [
+				document.querySelector('.aircraft-carrier'),
+				document.querySelector('.battle-ship'),
+				document.querySelector('.destroyer'),
+				document.querySelector('.submarine'),
+				document.querySelector('.patrol-boat'),
+			];
+
+			// Place ships in correct order (biggest to smallest)
+			const children = container.children;
+			for (let i = 0; i < order.length; i++) {
+				if (order[i] != children[i + 1] &&
+					!order[i].parentElement.classList.contains('cell')) {
+					container.insertBefore(order[i], children[i + 1]);
+				}
+			}
+		}
+	};
+
 	/** Hide/Show Starting Screen */
 	const toggleStartScreen = () => {
 		const startScreen = document.querySelector('.start-screen');
@@ -640,5 +708,5 @@ export const Dom = (() => {
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
-		addHit, toggleStartScreen, rotateShips, printMoveInfo};
+		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset};
 })();

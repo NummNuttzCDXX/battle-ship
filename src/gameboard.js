@@ -1,7 +1,7 @@
 // Gameboard Module
 
 import {Dom} from './dom';
-import {game} from '.';
+import {game, player1} from '.';
 import {Ship} from './ship';
 
 /** Gameboard Constructor */
@@ -73,12 +73,17 @@ export class Gameboard {
 	 * horizontally (left/right)?
 	 * - `true` by default
 	 *
-	 * @return {Ship} Newly created `Ship`
+	 * @return {Ship|null} - Newly created `Ship`
+	 * - `Null` if placement is invalid
 	 */
 	placeShip(coord, name, len, isVerticle = true) {
 		// Error Checks
 		if (coord[0] > 9 || coord[1] > 9) throw new Error('Invalid coordinate');
 		else if (len > 5 || len < 2) throw new Error('Invalid ship length');
+		// Check if placement is valid
+		else if (!this.#checkValidShipPlacement(coord, len, isVerticle)) {
+			return null;
+		}
 
 		const ship = new Ship(name, len, isVerticle);
 		this.activeShips.push(ship);
@@ -122,6 +127,65 @@ export class Gameboard {
 		}
 
 		return ship;
+	}
+
+	/**
+	 * Check if the Ship placed at `coord` is valid
+	 * - Will this placement overlap other Ships?
+	 *
+	 * @param {number[]} coord Coordinates that the top of the ship will
+	 * be in
+	 * - First coordinate
+	 * @param {number} len Length of Ship
+	 * @param {boolean} isVerticle Will the Ship be placed vertically?
+	 *
+	 * @return {boolean}
+	 * @throws Will throw Error if `isVerticle` is not `true` | `false`
+	 */
+	#checkValidShipPlacement(coord, len, isVerticle) {
+		const p = this.player == 1 ? player1 : game.player2; // Get player
+
+		// Loop through cells the Ship WOULD be placed in
+		if (isVerticle) {
+			// `l` is used for checking spaces that are off the board
+			for (let y = coord[1], l = len; y > coord[1] - len; y--, l--) {
+				const cell = p.board.grid[coord[0]][y];
+				// If cell = undefined (placement is off the board)
+				if (!cell) {
+					// Loop through spaces that are off the board
+					for (let i = l; i > 0; i--) {
+						// Place the cells that are off the board above the first Y & check
+						const cell = p.board.grid[coord[0]][coord[1] + i];
+						if (cell.hasShip) return false;
+					}
+					break;
+				}
+
+				// If cell has a ship, Placement is invalid
+				if (cell.hasShip) return false;
+			}
+		} else if (isVerticle === false) {
+			for (let x = coord[0], l = len; x < coord[0] + len; x++, l--) {
+				const col = p.board.grid[x];
+
+				// If cell = undefined (placement is off the board)
+				if (!col) {
+					// Loop through spaces that are off the board
+					for (let i = l; i > 0; i--) {
+						// Place the cells that are off the board above the first X & check
+						const cell = p.board.grid[coord[0] - i][coord[1]];
+						if (cell.hasShip) return false;
+					}
+					break;
+				}
+
+				const cell = col[coord[1]];
+				// If cell has a ship, Placement is invalid
+				if (cell.hasShip) return false;
+			}
+		} else throw Error('Err checking Ship placement');
+
+		return true;
 	}
 
 	/**
