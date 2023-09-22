@@ -27,5 +27,6 @@ module.exports = {
 		'indent': ['error', 'tab'], // Bc I like tabs :P
 		'linebreak-style': 'off', // Bc why?
 		'no-unused-vars': 'warn',
+		'no-console': 'error',
 	},
 };
