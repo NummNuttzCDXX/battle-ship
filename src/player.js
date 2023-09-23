@@ -128,19 +128,20 @@ export class Computer extends Player {
 			else if (i == 2) name = 'destroyer';
 			else if (i == 3) name = 'submarine';
 			else if (i == 4) name = 'patrol-boat';
-			else throw Error('Error placeing Computer Ships');
+			else throw Error('Error placing Computer Ships');
 
-			// Get random empty space
-			let space = emptySpaces[this.#getRandomNumber(emptySpaces.length)];
-			// If the space already has a ship get another number
-			while (this.board.grid[space[0]][space[1]].hasShip) {
+			let space;
+			let isVerticle;
+			let valid;
+			do {
+				// Get random empty space
 				space = emptySpaces[this.#getRandomNumber(emptySpaces.length)];
-			}
 
-			const isVerticle = this.#getRandomNumber(4) % 2 == 0 ? true : false;
-
-			// Place ship
-			this.board.placeShip(space, name, lengths[i], isVerticle);
+				// If random num is even, verticle = true
+				isVerticle = this.#getRandomNumber(4) % 2 == 0 ? true : false;
+				// Place ship
+				valid = this.board.placeShip(space, name, lengths[i], isVerticle);
+			} while (!valid); // If placement is invalid, do it all again
 		}
 	}
 
