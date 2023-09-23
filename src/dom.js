@@ -345,7 +345,7 @@ export const Dom = (() => {
 				// Set message
 				msg += `You sunk Player 2's ${name.join(' ')}!!`;
 			} else if (data.hit) {
-				msg += `You hit Player 2's ${name.join(' ')}!`;
+				msg += `You hit Player 2's ship!`;
 			} else if (data.miss) {
 				msg += `You shot and missed!`;
 			}
