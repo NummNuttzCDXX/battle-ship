@@ -140,13 +140,16 @@ export const Dom = (() => {
 				.querySelector(`.cell[data="${coord[1]}"]`);
 		}
 
-		// Create X image to place in cell
-		const X = new Image(getCellWidth() - 10);
-		X.src = xIcon;
-		X.alt = 'Cell has been shot';
-		X.classList.add('x-icon');
+		// If cell doesnt have an X already
+		if (!cell.querySelector('.x-icon')) {
+			// Create X image to place in cell
+			const X = new Image(getCellWidth() - 10);
+			X.src = xIcon;
+			X.alt = 'Cell has been shot';
+			X.classList.add('x-icon');
 
-		cell.appendChild(X);
+			cell.appendChild(X);
+		}
 	};
 
 	/**
@@ -257,6 +260,12 @@ export const Dom = (() => {
 					document.querySelector(`#player1 .col[data="${cell.coord[0]}"]`)
 						.querySelector(`.cell[data="${cell.coord[1]}"]`);
 
+				// Reset cell // Remove Miss marker and hit class
+				realCell.classList.remove('hit');
+				if (realCell.querySelector('.x-icon')) {
+					realCell.querySelector('.x-icon').remove();
+				}
+
 				// If Cell has a ship on it
 				if (cell.hasShip) {
 					// Place ship inside cell
@@ -274,13 +283,6 @@ export const Dom = (() => {
 				// If cell doesnt have ship but HAS been shot
 				} else if (cell.shot) {
 					addMiss(cell.coord, false);
-				// Else cell hasnt been touch
-				} else {
-					// Remove hit class and X Icon, if it has it
-					realCell.classList.remove('hit');
-					if (realCell.querySelector('.x-icon')) {
-						realCell.querySelector('.x-icon').remove();
-					}
 				}
 			}
 		}
@@ -295,18 +297,16 @@ export const Dom = (() => {
 					document.querySelector(`#player2 .col[data="${cell.coord[0]}"]`)
 						.querySelector(`.cell[data="${cell.coord[1]}"]`);
 
+				// Reset cell // Remove hit class and X Icon, if it has it
+				realCell.classList.remove('hit');
+				if (realCell.querySelector('.x-icon')) {
+					realCell.querySelector('.x-icon').remove();
+				}
+
 				// If cell has ship and has been shot, add hit
 				if (cell.hasShip && cell.shot) addHit(cell.coord, true);
 				// Else if cell doesnt have a ship but has been shot, add miss
 				else if (cell.shot) addMiss(cell.coord, true);
-				// Else cell hasnt been touched
-				else {
-					// Remove hit class and X Icon, if it has it
-					realCell.classList.remove('hit');
-					if (realCell.querySelector('.x-icon')) {
-						realCell.querySelector('.x-icon').remove();
-					}
-				}
 			}
 		}
 	};
