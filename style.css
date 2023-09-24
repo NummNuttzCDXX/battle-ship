@@ -89,7 +89,7 @@ fieldset {
 	width: 80%;
 }
 
-.hide, .start-screen.hide {
+.hide, .start-screen.hide, .transition.hide {
 	display: none;
 }
 
@@ -220,5 +220,27 @@ so they arent touching the very top of the .cell */
 .x-icon {
 	/* Color Icon Red */
 	filter: invert(14%) sepia(90%) saturate(5380%) hue-rotate(2deg) brightness(106%) contrast(125%);
-	z-index: 3;
+	z-index: 2;
+}
+
+/* Transition screen between turns */
+.transition {
+	/* Fixed POS, taking up the whole VP */
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	z-index: 2;
+
+	background-color: var(--dark-blue);
+
+	/* Center content */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-basis: auto;
+}
+
+.transition h1 {
+	text-align: center;
 }
