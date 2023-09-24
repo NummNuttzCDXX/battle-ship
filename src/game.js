@@ -78,21 +78,33 @@ export class Game {
 	 * Switch turns and add current player's listeners to board
 	 * OR Computer takes their turn
 	 * - Runs after Player takes their turn
+	 * @param {string} msg Message to print after turn starts to tell
+	 * Current Player what their Opponent did last turn
 	 */
-	makeMove = () => {
+	makeMove = (msg) => {
 		if (!this.game) return; // If game is not playing, return
 
 		this.#switchTurns();
 
-		// Display whos turn it is
-		document.querySelector('.move-info .turn')
-			.textContent = `Player ${this.turn}'s turn`;
+		setTimeout(() => {
+			// Display whos turn it is
+			document.querySelector('.move-info .turn')
+				.textContent = `Player ${this.turn}'s turn`;
+		}, 1500);
 
+		const info = document.querySelector('.move-info .info');
 		// If its p1's turn
 		if (this.turn === 1) {
 			// If p2 is not an AI, render board
 			// Board doesnt have to change if p2 is Computer
-			if (!this.player2.ai) Dom.renderGameboards(player1, this.player2);
+			if (!this.player2.ai) {
+				// After 1.5 seconds
+				setTimeout(() => {
+					Dom.toggleTransition();
+					Dom.renderGameboards(player1, this.player2);
+					info.textContent = msg;
+				}, 1500);
+			}
 			Dom.cellListeners.add(this.turn); // Add p1 listeners
 		// If p2 is computer and its their turn
 		} else if (this.player2.ai && this.turn === 2) {
@@ -106,9 +118,14 @@ export class Game {
 			}, 2000);
 		// If p2 is NOT an AI and its their turn
 		} else if (!this.player2.ai && this.turn === 2) {
-			// Switch Gameboards // Render p2 gameboard
-			Dom.renderGameboards(this.player2, player1);
-			Dom.cellListeners.add(this.turn); // Add p2 listeners
+			// After 1.5 seconds
+			setTimeout(() => {
+				Dom.toggleTransition(); // Show transition screen
+				// Switch Gameboards // Render p2 gameboard
+				Dom.renderGameboards(this.player2, player1);
+				info.textContent = msg;
+				Dom.cellListeners.add(this.turn); // Add p2 listeners
+			}, 1500);
 		} else {
 			throw Error('Error making a move');
 		}

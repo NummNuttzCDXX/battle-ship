@@ -92,6 +92,9 @@ rotateBtn.addEventListener('click', () => {
 	document.querySelector('.ship-container').classList.toggle('column');
 });
 
+const transScreen = document.querySelector('.transition');
+transScreen.addEventListener('click', Dom.toggleTransition);
+
 // Create p2 and hide Start Screen on click
 const startBtn = document.querySelector('.start');
 startBtn.addEventListener('click', () => {

@@ -89,20 +89,20 @@ export const Dom = (() => {
 					const player1Callback = () => {
 						// Make player1's move
 						const data = player1.makeMove(cell, game.player2);
-						printMoveInfo(data); // Print out what happened this turn
+						const msg = printMoveInfo(data, true); // Print out what happened
 
 						// If cell is not already shot
-						if (!data.alreadyShot) game.makeMove(); // Switch turns, etc.
+						if (!data.alreadyShot) game.makeMove(msg); // Switch turns, etc.
 					};
 					column1.push(player1Callback); // Push callback
 
 					// Create player2 callback
 					const player2Callback = () => {
 						const data = game.player2.makeMove(cell, player1);
-						printMoveInfo(data);
+						const msg = printMoveInfo(data, true);
 
 						// If cell is not already shot
-						if (!data.alreadyShot) game.makeMove(); // Switch turns, etc.
+						if (!data.alreadyShot) game.makeMove(msg); // Switch turns, etc.
 					};
 					column2.push(player2Callback); // push
 				});
@@ -320,8 +320,15 @@ export const Dom = (() => {
 	 * 	- "Hit!"
 	 *
 	 * @param {object|data} data Attack data
+	 * @param {boolean} [simplified=false] Simplify the message?
+	 * Example:
+	 * - Before: 'Player2 hit your Battle Ship'
+	 * - After: 'Hit!'
+	 *
+	 * @return {void|string} If `simplified` = true, return the
+	 * unsimplified msg, otherwise, void
 	 */
-	const printMoveInfo = (data) => {
+	const printMoveInfo = (data, simplified = false) => {
 		// If a ship was hit, get the name
 		let name;
 		if (data.ship) {
@@ -366,8 +373,19 @@ export const Dom = (() => {
 		if (data.alreadyShot) {
 			msg = 'Cell has already been shot! <br> Please go again';
 			element.innerHTML = msg;
-		} else {
+		} else if (!simplified) {
 			element.textContent = msg;
+		} else if (simplified) { // If `simplified` msg
+			let simple;
+			if (msg.includes('sunk')) {
+				const player = data.player == 1 ? 2 : 1;
+				simple = `You sunk Player ${player}'s ${name.join(' ')}`;
+			} else if (msg.includes('miss')) simple = 'You shot and missed!';
+			else if (msg.includes('hit')) simple = 'Hit!';
+
+			// Print simplified msg and return unsimplified msg
+			element.textContent = simple;
+			return msg;
 		}
 	};
 
@@ -704,9 +722,15 @@ export const Dom = (() => {
 		startScreen.classList.toggle('hide');
 	};
 
+	/** Toggle transition screen between player turns */
+	const toggleTransition = () => {
+		document.querySelector('.transition').classList.toggle('hide');
+	};
+
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
-		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset};
+		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
+		toggleTransition};
 })();
