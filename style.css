@@ -49,7 +49,7 @@ header h1 {
 	height: 100vh;
 
 	z-index: 2;
-	position: absolute;
+	position: fixed;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -57,6 +57,10 @@ header h1 {
 
 	background-color: var(--dark-blue);
 	color: var(--saffron);
+}
+
+.start-screen p {
+	text-align: center;
 }
 
 button {
@@ -89,7 +93,8 @@ fieldset {
 	width: 80%;
 }
 
-.hide, .start-screen.hide, .transition.hide {
+.hide, .start-screen.hide, .transition.hide,
+.ship-container.hide {
 	display: none;
 }
 
@@ -107,10 +112,15 @@ fieldset {
 	justify-content: space-around;
 }
 
+.board-container p {
+	margin-top: 0;
+}
+
 .gameboard {
 	--size: 30vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
 	height: var(--size);
+	margin-bottom: .5rem;
 	box-sizing: content-box;
 
 	display: flex;
@@ -172,6 +182,7 @@ so they arent touching the very top of the .cell */
 
 .ship-container {
 	padding: .5rem;
+	box-sizing: border-box;
 
 	display: flex;
 	justify-content: center;
@@ -213,6 +224,10 @@ so they arent touching the very top of the .cell */
 	height: fit-content;
 }
 
+.move-info {
+	margin-top: .5rem;
+}
+
 .move-info p {
 	text-align: center;
 }
@@ -243,4 +258,25 @@ so they arent touching the very top of the .cell */
 
 .transition h1 {
 	text-align: center;
+}
+
+@media screen and (max-width: 750px) {
+	.board-container {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.gameboard {
+		--size: 50vh;
+		max-width: 90vw;
+		max-height: 90vw;
+	}
+
+	.ship-container {
+		margin: 10px 0;
+	}
+
+	form {
+		width: 50%;
+	}
 }
