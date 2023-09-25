@@ -62,7 +62,11 @@ export class Game {
 		this.turn = 1;
 
 		// Hide ship container
-		document.querySelector('.ship-container').style.visibility = 'hidden';
+		if (Dom.isScreenSmall()) {
+			document.querySelector('.ship-container').classList.add('hide');
+		} else {
+			document.querySelector('.ship-container').style.visibility = 'hidden';
+		}
 
 		// Create move callbacks and render p1 board
 		Dom.cellListeners.createCallbacks();

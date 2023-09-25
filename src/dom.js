@@ -228,15 +228,31 @@ export const Dom = (() => {
 		shipContainer.appendChild(patrolBoat);
 
 		// Append Before Second Gameboard -- Ships are between both boards
-		const p2Board = document.querySelector('#player2');
+		const p2Name = document.querySelector('#two.name');
 		const boardContainer = document.querySelector('.board-container');
-		boardContainer.insertBefore(shipContainer, p2Board);
+		boardContainer.insertBefore(shipContainer, p2Name);
 
-		// shipContainer keeps static width
+		// shipContainer keeps static width and height
 		shipContainer.style.width = shipContainer.clientWidth + 'px';
+		shipContainer.style.height = shipContainer.clientHeight + 'px';
 
 		// Allow ships to be 'dragged'
 		dragDrop.makeShipsDraggable();
+	};
+
+	/**
+	 * Change layout / UI for smaller screens
+	 * - Will run if the screen is small
+	 */
+	const mobileLayout = () => {
+		// Check if screen is small
+		if (!isScreenSmall()) return;
+
+		// Move 'move-info' container into view
+		const infoContainer = document.querySelector('.move-info');
+		const p2Name = document.querySelector('.name#two');
+		const boardContainer = document.querySelector('.board-container');
+		boardContainer.insertBefore(infoContainer, p2Name);
 	};
 
 	/**
@@ -730,7 +746,15 @@ export const Dom = (() => {
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
+	/**
+	 * Check if User screen is small
+	 * @return {boolean}
+	 */
+	const isScreenSmall = () => {
+		return (window.innerWidth <= 750 || window.innerHeight <= 650);
+	};
+
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
 		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
-		toggleTransition};
+		toggleTransition, mobileLayout, isScreenSmall};
 })();

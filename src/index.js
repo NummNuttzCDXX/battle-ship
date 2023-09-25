@@ -12,6 +12,7 @@ export const game = new Game();
 
 // Add ships to DOM
 Dom.createShips();
+Dom.mobileLayout();
 
 // Allow ships to be dropped inside cells
 const cells = document.querySelectorAll('#player1 .cell');
