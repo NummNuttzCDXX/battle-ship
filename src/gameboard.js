@@ -234,7 +234,11 @@ export class Gameboard {
 			cell.ship.hit(); // Hit ship
 
 			// Add hit to board
-			const isOppBoard = this.player === 1 ? false : true;
+			// If p1 is recieving attk & p2 is not AI || p2 is recieving attk, `true`
+			const isOppBoard =
+				((this.player == 1 && !game.player2.ai) || this.player == 2) ?
+					true :
+					false;
 			Dom.addHit(coord, isOppBoard);
 
 			// Check if ship is sunk
@@ -258,12 +262,14 @@ export class Gameboard {
 		} else {
 			data.miss = true; // Log miss
 
+			// If P1 is recieving the attk AND P2 is a Player || P2 is receiving attk
+			const isOppBoard =
+				((this.player == 1 && !game.player2.ai) || this.player == 2) ?
+					true :
+					false;
+
 			// Add miss
-			if (this.player === 1) {
-				Dom.addMiss(coord, false);
-			} else {
-				Dom.addMiss(coord, true);
-			}
+			Dom.addMiss(coord, isOppBoard);
 		}
 
 		return data;
