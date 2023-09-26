@@ -94,6 +94,8 @@ export class Game {
 			// Display whos turn it is
 			document.querySelector('.move-info .turn')
 				.textContent = `Player ${this.turn}'s turn`;
+
+			if (!this.player2.ai) Dom.switchNames();
 		}, 1500);
 
 		const info = document.querySelector('.move-info .info');

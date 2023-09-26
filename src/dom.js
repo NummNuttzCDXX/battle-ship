@@ -228,13 +228,13 @@ export const Dom = (() => {
 		shipContainer.appendChild(patrolBoat);
 
 		// Append Before Second Gameboard -- Ships are between both boards
-		const p2Name = document.querySelector('#two.name');
+		const p2Board = document.querySelector('#player2');
 		const boardContainer = document.querySelector('.board-container');
-		boardContainer.insertBefore(shipContainer, p2Name);
+		boardContainer.insertBefore(shipContainer, p2Board.parentElement);
 
 		// shipContainer keeps static width and height
 		shipContainer.style.width = shipContainer.clientWidth + 'px';
-		shipContainer.style.height = shipContainer.clientHeight + 'px';
+		shipContainer.style.height = p2Board.offsetHeight + 'px';
 
 		// Allow ships to be 'dragged'
 		dragDrop.makeShipsDraggable();
@@ -250,9 +250,13 @@ export const Dom = (() => {
 
 		// Move 'move-info' container into view
 		const infoContainer = document.querySelector('.move-info');
-		const p2Name = document.querySelector('.name#two');
+		const p2Board = document.querySelector('#player2');
 		const boardContainer = document.querySelector('.board-container');
-		boardContainer.insertBefore(infoContainer, p2Name);
+		boardContainer.insertBefore(infoContainer, p2Board.parentElement);
+
+		const shipContainer = document.querySelector('.ship-container');
+		shipContainer.style.height = '';
+		shipContainer.style.height = shipContainer.clientHeight + 5 + 'px';
 	};
 
 	/**
@@ -762,6 +766,39 @@ export const Dom = (() => {
 		document.querySelector('.transition').classList.toggle('hide');
 	};
 
+	/**
+	 * Initial setup of Player names
+	 * - Set `Player.name` to the input's value
+	 * - Set the Players textbox above the board to that name
+	 */
+	const setPlayerNames = () => {
+		const players = [player1, game.player2];
+		// Get names from inputs
+		const nameBoxs = document.querySelectorAll('.name');
+		const inputs = document.querySelectorAll('#name1, #name2');
+		for (let i = 0; i <= 1; i++) {
+			// Set Player.name to input value
+			players[i].name = inputs[i].value;
+			// Set Player textbox to Player.name
+			nameBoxs[i].textContent = players[i].name;
+		}
+	};
+
+	/**
+	 * Switch the Names in the textboxes when the
+	 * turns/boards switch
+	 */
+	const switchNames = () => {
+		// Get the Names from textboxes
+		const name1 = document.querySelector('.name#one');
+		const name2 = document.querySelector('.name#two');
+		const names = [name1.textContent, name2.textContent];
+
+		// Switch names
+		name1.textContent = names[1];
+		name2.textContent = names[0];
+	};
+
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
@@ -775,5 +812,6 @@ export const Dom = (() => {
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
 		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
-		toggleTransition, mobileLayout, isScreenSmall, selectShip};
+		toggleTransition, mobileLayout, isScreenSmall, selectShip, setPlayerNames,
+		switchNames};
 })();
