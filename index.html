@@ -30,257 +30,271 @@
 				</label>
 			</fieldset>
 
+			<label for="name1">
+				Name:
+				<input type="text" id="name1" value="Player 1" placeholder="Player 1">
+			</label>
+
+			<label for="name2" class="hide">
+				Name:
+				<input type="text" id="name2" value="Player 2" placeholder="Player 2">
+			</label>
+
 			<button type="button" class="start">Start Game</button>
 		</form>
 	</div>
 
 	<div class="content">
 		<div class="board-container">
-			<p class="name" id="one"></p>
-			<div class="gameboard" id="player1">
-				<div class="col" data="0">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="1">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="2">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="3">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="4">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="5">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="6">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="7">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="8">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="9">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
+			<div class="board-wrapper">
+				<p class="name" id="one"></p>
+				<div class="gameboard" id="player1">
+					<div class="col" data="0">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="1">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="2">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="3">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="4">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="5">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="6">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="7">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="8">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="9">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
 				</div>
 			</div>
 
-			<p class="name" id="two"></p>
-			<div class="gameboard" id="player2">
-				<div class="col" data="0">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="1">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="2">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="3">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="4">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="5">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="6">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="7">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="8">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
-				</div>
-				<div class="col" data="9">
-					<div class="cell" data="0"></div>
-					<div class="cell" data="1"></div>
-					<div class="cell" data="2"></div>
-					<div class="cell" data="3"></div>
-					<div class="cell" data="4"></div>
-					<div class="cell" data="5"></div>
-					<div class="cell" data="6"></div>
-					<div class="cell" data="7"></div>
-					<div class="cell" data="8"></div>
-					<div class="cell" data="9"></div>
+			<div class="board-wrapper">
+				<p class="name" id="two"></p>
+				<div class="gameboard" id="player2">
+					<div class="col" data="0">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="1">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="2">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="3">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="4">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="5">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="6">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="7">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="8">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
+					<div class="col" data="9">
+						<div class="cell" data="0"></div>
+						<div class="cell" data="1"></div>
+						<div class="cell" data="2"></div>
+						<div class="cell" data="3"></div>
+						<div class="cell" data="4"></div>
+						<div class="cell" data="5"></div>
+						<div class="cell" data="6"></div>
+						<div class="cell" data="7"></div>
+						<div class="cell" data="8"></div>
+						<div class="cell" data="9"></div>
+					</div>
 				</div>
 			</div>
 		</div>
