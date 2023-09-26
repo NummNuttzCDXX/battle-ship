@@ -256,6 +256,21 @@ export const Dom = (() => {
 	};
 
 	/**
+	 * Select a Ship for placement
+	 * - Alternative to Drag and Drop
+	 * @param {HTMLImageElement} img Ship img
+	 */
+	const selectShip = (img) => {
+		// If a Ship is already 'selected', deselect it
+		if (document.querySelector('img.selected')) {
+			document.querySelector('img.selected').classList.remove('selected');
+		}
+
+		// Select Ship
+		img.classList.add('selected', 'dragging');
+	};
+
+	/**
 	 * Render `player`'s board based on their
 	 * `Gameboard` Object
 	 * @link See 'Player.board'
@@ -535,10 +550,14 @@ export const Dom = (() => {
 		 */
 		const onDrop = (event) => {
 			event.preventDefault();
-			const data = event.dataTransfer.getData('text'); // Get data
-			const ship = document.querySelector(`[src="${data}"]`); // Get ship
-			ship.classList.remove('dragging');
+			const data = event.type == 'drop' ? event.dataTransfer.getData('text') :
+				null; // Get data
+			// Get ship
+			const ship = data == null ? document.querySelector('.selected') :
+				document.querySelector(`[src="${data}"]`);
+			ship.classList.remove('dragging', 'selected');
 			const cell = event.target;
+			if (!cell.classList.contains('cell')) throw Error('Target is not a Cell');
 
 			// Check if img goes off of the board
 			// If ship is rotated (horizontal)
@@ -756,5 +775,5 @@ export const Dom = (() => {
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
 		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
-		toggleTransition, mobileLayout, isScreenSmall};
+		toggleTransition, mobileLayout, isScreenSmall, selectShip};
 })();

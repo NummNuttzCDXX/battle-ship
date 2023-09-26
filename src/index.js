@@ -14,12 +14,29 @@ export const game = new Game();
 Dom.createShips();
 Dom.mobileLayout();
 
-// Allow ships to be dropped inside cells
+// Allow ships to be dropped (&& click & place) inside cells
 const cells = document.querySelectorAll('#player1 .cell');
 cells.forEach((cell) => {
 	cell.addEventListener('dragover', Dom.dragDrop.dragover);
 
-	cell.addEventListener('drop', (e) => {
+	cell.addEventListener('drop', placeInCell);
+
+	cell.addEventListener('click', placeInCell);
+
+
+	/**
+	 * Do what needs to be done to place the Ship
+	 * on the Players Gameboard and Cell when the Ship is
+	 * Dragged and Dropped inside the Cell or
+	 * when the Ship is `selected` and the Cell is clicked
+	 *
+	 * @param {Event} e
+	 */
+	function placeInCell(e) {
+		// If no Ship is being dragged or selected, do nothing
+		if (!document.querySelector('.dragging') &&
+		!document.querySelector('.selected')) return;
+
 		// Get the ship / Drop the ship into cell
 		const {ship, left} = Dom.dragDrop.onDrop(e);
 		const shipName = ship.classList[0]; // Get Name of ship from its first class
@@ -77,7 +94,14 @@ cells.forEach((cell) => {
 			// Start Game
 			game.startGame();
 		}
-	});
+	}
+});
+
+// Allow Ships to be clicked to select/place
+const shipImgs = document.querySelectorAll('.ship-container img');
+shipImgs.forEach((img) => {
+	// Select Ship by clicking (will highlight img)
+	img.addEventListener('click', () => Dom.selectShip(img));
 });
 
 // Remove 'dragging' class from Ship imgs if they are inside the container still
