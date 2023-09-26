@@ -202,6 +202,10 @@ so they arent touching the very top of the .cell */
 	position: absolute;
 }
 
+.ship-container .selected {
+	border: 2px solid var(--antiflash-white);
+}
+
 .gameboard .col .cell img {
 	background-image: none;
 }
