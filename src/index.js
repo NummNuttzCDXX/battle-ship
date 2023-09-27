@@ -3,7 +3,7 @@ Start: 9/5/23 */
 
 import {Dom} from './dom';
 import {Game} from './game';
-import {Computer, Player} from './player';
+import {Player} from './player';
 
 // Create Players
 export const player1 = new Player();
@@ -117,8 +117,43 @@ rotateBtn.addEventListener('click', () => {
 	document.querySelector('.ship-container').classList.toggle('column');
 });
 
+// Toggle transition screen && Child info elements
 const transScreen = document.querySelector('.transition');
-transScreen.addEventListener('click', Dom.toggleTransition);
+transScreen.addEventListener('click', () => {
+	// Get info elements
+	const infoElems = document.querySelectorAll('.transition p');
+	const shownElements = [];
+	infoElems.forEach((elem) => {
+		// If element is shown
+		if (!elem.classList.contains('hide')) {
+			shownElements.push(elem.classList[0]);
+		}
+	});
+
+	// If any info element is shown
+	if (shownElements.length > 0) {
+		// Hide the element
+		shownElements.forEach((p) => {
+			if (p == 'how') Dom.toggleHowToPlay();
+			if (p == 'rules') Dom.toggleRules();
+		});
+	}
+
+	const h1 = transScreen.querySelector('h1');
+	if (h1.textContent.includes('hide')) {
+		h1.textContent = h1.textContent.replace('hide', 'switch players');
+	}
+
+	// Toggle transition screen
+	Dom.toggleTransition();
+});
+
+// Info Btns
+const howToBtn = document.querySelector('.how-btn');
+howToBtn.addEventListener('click', Dom.toggleHowToPlay);
+
+const rulesBtn = document.querySelector('.rules-btn');
+rulesBtn.addEventListener('click', Dom.toggleRules);
 
 // If 'Multi-Player' radio btn is selected, Show P2 name input
 const radioBtns = document.querySelectorAll('input[type="radio"]');

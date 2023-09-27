@@ -799,6 +799,52 @@ export const Dom = (() => {
 		name2.textContent = names[0];
 	};
 
+	/**
+	 * Run when `How to play` button is pushed
+	 * - Load `transition` screen
+	 * - Modify `h1` element
+	 * - Show (toggle) `.how` `p` element
+	 * 	- How to place ships
+	 * 	- How this version of game will work
+	 */
+	const toggleHowToPlay = () => {
+		// If transition screen is hidden, show it
+		if (document.querySelector('.transition').classList.contains('hide')) {
+			toggleTransition();
+		}
+
+		// Slightly change h1 txt
+		const h1 = document.querySelector('.transition h1');
+		if (h1.textContent.includes('switch players')) {
+			h1.textContent = h1.textContent.replace('switch players', 'hide');
+		}
+
+		// Toggle How to play txt
+		document.querySelector('.transition .how').classList.toggle('hide');
+	};
+
+	/**
+	 * Run when `Rules` button is pushed
+	 * - Load `transition` screen
+	 * - Modify `h1` element
+	 * - Show (toggle) `.rules` `p` element
+	 */
+	const toggleRules = () => {
+		// If transition screen is hidden, show it
+		if (document.querySelector('.transition').classList.contains('hide')) {
+			toggleTransition();
+		}
+
+		// Slightly change h1 txt
+		const h1 = document.querySelector('.transition h1');
+		if (h1.textContent.includes('switch players')) {
+			h1.textContent = h1.textContent.replace('switch players', 'hide');
+		}
+
+		// Toggle Rules txt
+		document.querySelector('.rules').classList.toggle('hide');
+	};
+
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
@@ -817,5 +863,5 @@ export const Dom = (() => {
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
 		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
 		toggleTransition, mobileLayout, isScreenSmall, selectShip, setPlayerNames,
-		switchNames};
+		switchNames, toggleHowToPlay, toggleRules};
 })();

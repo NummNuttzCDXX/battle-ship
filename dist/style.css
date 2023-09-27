@@ -35,6 +35,8 @@ header {
 header h1 {
 	text-align: center;
 	font-size: 2.5em;
+	margin-top: 1rem;
+	margin-bottom: .8rem;
 
 	/* Text Gradient */
 	background: linear-gradient(to bottom, var(--antiflash-white) 15%, yellow 50%, rgb(253, 180, 11) 90%);
@@ -42,6 +44,15 @@ header h1 {
 	-moz-background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+nav {
+	margin-bottom: .5rem;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
 }
 
 .start-screen {
@@ -275,13 +286,20 @@ so they arent touching the very top of the .cell */
 
 	/* Center content */
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: 1rem;
 	flex-basis: auto;
 }
 
 .transition h1 {
 	text-align: center;
+	margin-bottom: 0;
+}
+
+.transition p {
+	margin: 0 1.5rem;
 }
 
 @media screen and (max-width: 750px) {
