@@ -21,7 +21,7 @@ body {
 	display: flex;
 	flex-direction: column;
 
-	min-width: 100vw;
+	max-width: 100vw;
 	min-height: 100vh;
 
 	background-color: var(--dark-blue);
@@ -76,8 +76,9 @@ nav {
 
 button {
 	font: inherit;
-	font-size: .8em;
+	font-size: .8rem;
 	border-color: var(--saffron);
+	border-width: .15em;
 	border-radius: .4rem;
 	background-color: var(--blue);
 	color: var(--saffron);
@@ -121,6 +122,12 @@ fieldset {
 	gap: .5em;
 
 	width: 80%;
+
+	border-width: .1em;
+}
+
+button.start {
+	margin: 0;
 }
 
 .hide, .start-screen.hide, .transition.hide,
@@ -137,9 +144,11 @@ fieldset {
 /* Gameboards */
 .board-container {
 	width: 100%;
+	padding-bottom: .5rem;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+	align-items: end;
 }
 
 .board-container p {
@@ -151,7 +160,6 @@ fieldset {
 	--size: 30vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
 	height: var(--size);
-	margin-bottom: .5rem;
 	box-sizing: content-box;
 
 	display: flex;
@@ -257,10 +265,6 @@ so they arent touching the very top of the .cell */
 
 .start {
 	height: fit-content;
-}
-
-.move-info {
-	margin-top: .5rem;
 }
 
 .move-info p {
