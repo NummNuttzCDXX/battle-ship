@@ -139,6 +139,7 @@ button.start {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	align-items: center;
 }
 
 /* Gameboards */
@@ -147,8 +148,9 @@ button.start {
 	padding-bottom: .5rem;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	align-items: end;
+	gap: .5rem;
 }
 
 .board-container p {
@@ -159,8 +161,10 @@ button.start {
 .gameboard {
 	--size: 30vw; /* Width/Height of gameboard will both be the same */
 	width: var(--size);
+	min-width: 275px;
 	height: var(--size);
-	box-sizing: content-box;
+	min-height: 275px;
+	box-sizing: border-box;
 
 	display: flex;
 	position: relative;
@@ -226,7 +230,7 @@ so they arent touching the very top of the .cell */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	gap: 1rem;
+	gap: .5rem;
 
 	background-color: var(--gray);
 	border-radius: 1.5rem;

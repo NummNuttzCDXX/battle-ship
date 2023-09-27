@@ -255,8 +255,7 @@ export const Dom = (() => {
 		boardContainer.insertBefore(infoContainer, p2Board.parentElement);
 
 		const shipContainer = document.querySelector('.ship-container');
-		shipContainer.style.height = '';
-		shipContainer.style.height = shipContainer.clientHeight + 5 + 'px';
+		shipContainer.style.height = shipContainer.clientWidth + 10 + 'px';
 	};
 
 	/**
@@ -640,7 +639,7 @@ export const Dom = (() => {
 	 */
 	const rotateShips = () => {
 		const ships = document.querySelectorAll('.ship-container img');
-		let spacing = 4; // Space from the top
+		let spacing = isScreenSmall() ? 2 : 4; // Space from the top
 		ships.forEach((ship) => {
 			ship.style.transformOrigin = calcTransformOrigin(ship);
 			ship.classList.toggle('rotate'); // Toggle rotate class
