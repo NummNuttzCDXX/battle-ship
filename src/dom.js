@@ -845,6 +845,41 @@ export const Dom = (() => {
 		document.querySelector('.rules').classList.toggle('hide');
 	};
 
+	/**
+	 * Clear everything off of the boards and reset Ship
+	 * imgs/container as if the game hasnt started yet
+	 */
+	const clearBoards = () => {
+		const shipImgs = [];
+		const imgs = document.querySelectorAll('.gameboard img');
+		imgs.forEach((img) => {
+			if (img.classList.contains('x-icon')) img.remove();
+			else {
+				// Push ships to arr
+				shipImgs.push(img);
+			}
+		});
+
+		// Sort arr lowest to greatest
+		shipImgs.sort((a, b) => a.getAttribute('data') - b.getAttribute('data'));
+		const shipContainer = document.querySelector('.ship-container');
+		// Reverse array to add Ships from biggest to smallest
+		shipImgs.reverse().forEach((img) => {
+			// Add Ship to Ship container
+			img.classList.remove('rotate');
+			shipContainer.appendChild(img);
+		});
+		dragDrop.makeShipsDraggable();
+
+		// Show ship container
+		shipContainer.classList.remove('hide', 'column');
+		shipContainer.style.visibility = 'visible';
+
+		// Remove hit class from cells
+		const hitCells = document.querySelectorAll('.cell.hit');
+		hitCells.forEach((cell) => cell.classList.remove('hit'));
+	};
+
 	/** @return {number} Gameboard Cell's width */
 	const getCellWidth = () => document.querySelector('.cell').clientWidth;
 
@@ -863,5 +898,5 @@ export const Dom = (() => {
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,
 		addHit, toggleStartScreen, rotateShips, printMoveInfo, shipReset,
 		toggleTransition, mobileLayout, isScreenSmall, selectShip, setPlayerNames,
-		switchNames, toggleHowToPlay, toggleRules};
+		switchNames, toggleHowToPlay, toggleRules, clearBoards};
 })();

@@ -84,9 +84,11 @@ export class Game {
 	 * - Runs after Player takes their turn
 	 * @param {string} msg Message to print after turn starts to tell
 	 * Current Player what their Opponent did last turn
+	 *
+	 * @return {void}
 	 */
 	makeMove = (msg) => {
-		if (!this.game) return; // If game is not playing, return
+		if (!this.game) return this.gameOver(); // If game is not playing, return
 
 		this.#switchTurns();
 
@@ -171,9 +173,42 @@ export class Game {
 		});
 	};
 
-	gameOver = () => {
-		alert('Gameover'); // TEMP
+	/**
+	 * Display winner and Restart button
+	 * @param {Player|Computer} winner Who won?
+	 */
+	gameOver = (winner) => {
 		this.game = false;
+		const turn = document.querySelector('.turn');
+		turn.innerHTML =
+			`Game Over! <br> ${winner.name} wins!`;
+
+		turn.classList.add('win');
+	};
+
+
+	/**
+	 * Reset everything as if the page is first loaded
+	 */
+	restart = () => {
+		this.game = false;
+		// Clear boards
+		player1.board.clearBoard();
+		Dom.clearBoards();
+
+		// Clear move-info text fields
+		const moveInfo = document.querySelectorAll('.turn, .info');
+		moveInfo.forEach((box) => {
+			box.textContent = '';
+			box.classList.remove('win');
+		});
+
+		// Remove all cell listeners
+		Dom.cellListeners.remove(1);
+		Dom.cellListeners.remove(2);
+
+		// Show start screen
+		Dom.toggleStartScreen();
 	};
 
 	/**

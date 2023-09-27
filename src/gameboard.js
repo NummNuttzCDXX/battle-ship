@@ -255,7 +255,8 @@ export class Gameboard {
 				// Check if all ships sunk
 				if (this.#checkShips()) {
 					// GAME OVER
-					game.gameOver();
+					const winner = this.player == 1 ? game.player2 : player1;
+					game.gameOver(winner);
 				}
 			}
 		// Else shot missed
@@ -274,6 +275,13 @@ export class Gameboard {
 
 		return data;
 	}
+
+	/** Reset/Clear everything on the board - Brand new */
+	clearBoard = () => {
+		this.grid = this.#createGrid();
+		this.activeShips = [];
+		this.shotsTaken = [];
+	};
 
 	/**
 	 * Check if all ships are sunk

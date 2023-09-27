@@ -169,3 +169,7 @@ startBtn.addEventListener('click', () => {
 	Dom.setPlayerNames();
 	Dom.toggleStartScreen();
 });
+
+// Reset / New Game btn
+const restartBtn = document.querySelector('.restart');
+restartBtn.addEventListener('click', game.restart);

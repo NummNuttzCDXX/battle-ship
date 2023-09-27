@@ -269,6 +269,12 @@ so they arent touching the very top of the .cell */
 
 .move-info p {
 	text-align: center;
+	margin: 1rem;
+}
+
+.win {
+	font-weight: 700;
+	font-size: 1.2rem;
 }
 
 .x-icon {
