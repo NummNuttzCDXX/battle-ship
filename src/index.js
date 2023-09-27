@@ -120,9 +120,17 @@ rotateBtn.addEventListener('click', () => {
 const transScreen = document.querySelector('.transition');
 transScreen.addEventListener('click', Dom.toggleTransition);
 
+// If 'Multi-Player' radio btn is selected, Show P2 name input
+const radioBtns = document.querySelectorAll('input[type="radio"]');
+radioBtns.forEach((btn) => btn.addEventListener('change', () => {
+	// Toggle 'hide' class on P2Name inp when MultiPlayer btn changes
+	document.querySelector('#name2').parentElement.classList.toggle('hide');
+}));
+
 // Create p2 and hide Start Screen on click
 const startBtn = document.querySelector('.start');
 startBtn.addEventListener('click', () => {
 	game.createP2();
+	Dom.setPlayerNames();
 	Dom.toggleStartScreen();
 });
