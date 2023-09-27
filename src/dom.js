@@ -807,7 +807,11 @@ export const Dom = (() => {
 	 * @return {boolean}
 	 */
 	const isScreenSmall = () => {
-		return (window.innerWidth <= 750 || window.innerHeight <= 650);
+		// If VW greater than 750 AND VH is less than 650
+		// Possibly meaning Tablet
+		if ((window.innerWidth > 750 && window.innerHeight <= 650)) return false;
+		else if (window.innerWidth <= 750 || window.innerHeight <= 650) return true;
+		else return false;
 	};
 
 	return {createShips, dragDrop, renderGameboards, cellListeners, addMiss,

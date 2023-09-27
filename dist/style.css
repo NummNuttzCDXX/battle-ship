@@ -300,6 +300,11 @@ so they arent touching the very top of the .cell */
 		margin: 10px 0;
 	}
 
+	.rotate-btn {
+		top: .25rem;
+		margin: 0;
+	}
+
 	form {
 		width: 50%;
 	}
