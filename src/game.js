@@ -162,6 +162,7 @@ export class Game {
 
 		// Switch Gameboards
 		Dom.renderGameboards(this.player2, player1);
+		Dom.switchNames();
 		this.#switchTurns();
 
 		const container = document.querySelector('.ship-container');
@@ -201,6 +202,7 @@ export class Game {
 	 */
 	restart = () => {
 		this.game = false;
+		this.turn = 1;
 		// Clear boards
 		player1.board.clearBoard();
 		Dom.clearBoards();

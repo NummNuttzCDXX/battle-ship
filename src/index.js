@@ -91,6 +91,7 @@ cells.forEach((cell) => {
 		// Check if all ships are placed
 		if (player1.board.activeShips.length === 5 &&
 			game.player2.board.activeShips.length === 5) {
+			if (!game.player2.ai) Dom.switchNames();
 			// Start Game
 			game.startGame();
 		}

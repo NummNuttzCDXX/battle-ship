@@ -751,6 +751,16 @@ export const Dom = (() => {
 					container.insertBefore(order[i], children[i + 1]);
 				}
 			}
+
+			if (img.parentElement.classList.contains('cell')) {
+				const ind = order.findIndex((v) => v == img);
+
+				try {
+					container.insertBefore(img, order[ind + 1]);
+				} catch (error) {
+					container.appendChild(img);
+				}
+			}
 		}
 	};
 
