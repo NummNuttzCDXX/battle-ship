@@ -31,10 +31,13 @@ export class Player {
 	 * @return {data} Object containing data about the attack
 	 */
 	makeMove(cell, otherPlayer) {
-		const coord = [
-			cell.parentElement.getAttribute('data'),
-			cell.getAttribute('data'),
-		];
+		let coord = cell;
+		if (!Array.isArray(coord)) {
+			coord = [
+				cell.parentElement.getAttribute('data'),
+				cell.getAttribute('data'),
+			];
+		}
 
 		// Attack opponent
 		const attackData = otherPlayer.board.recieveAttack(coord);
@@ -60,6 +63,19 @@ export class Computer extends Player {
 	 */
 	constructor() {
 		super('Computer', 2, true);
+		/**
+		 * @type {number[][]} Array of coordinates
+		 * @description When a shot hits a ship, `push`
+		 * coordinates of adjacent spaces here
+		 */
+		this.adjacent = [];
+		/** Coordinate of last Hit */
+		this.lastHit = null;
+		/** Coordinate of previous Hit, before `lastHit` */
+		this.prevHit = null;
+		/** Coordinate of first Hit on a ship */
+		this.firstHit = null;
+		this.nextHit = null;
 	}
 
 	/**
@@ -81,7 +97,151 @@ export class Computer extends Player {
 				.children[legalMoves[num][1]];
 
 		// Make Move
-		return this.makeMove(cell, player1);
+		const data = this.makeMove(cell, player1);
+		// If the attack hit and didnt sink
+		if (data.hit && !data.sunk) {
+			// Push adjacent coords to arr
+			this.pushAdjacent(legalMoves[num]);
+			this.firstHit = legalMoves[num];
+			this.lastHit = legalMoves[num];
+		}
+
+		return data;
+	}
+
+	/**
+	 * Attack the adjacent cell of a previously hit cell
+	 * 1. Attack next adjacent cell
+	 * 2. If it hit, save `lastHit` and `prevHit` (previous hit before last)
+	 * 3. Next time, compare `prevHit` to `lastHit` and attack the next cell
+	 * in the same line.
+	 * 	- So, in theory, it should attack the whole Ship, once
+	 * it knows what direction the Ship is going in
+	 * @example
+	 * This will run when it is Computers turn, and `this.adjacent` has anything
+	 * inside it.
+	 *
+	 * @return {object} Data about the attack
+	 * @throws {Error} If comparing `lastHit` to `prevHit` fails
+	 */
+	runAdjacentHit() {
+		let coord = !this.nextHit ? this.adjacent.pop() : this.nextHit;
+		let data;
+		// If there is a next hit
+		if (this.nextHit != null) {
+			data = this.makeMove(this.nextHit, player1); // Attk nextHit
+			this.nextHit = null; // Reset nextHit
+		// If there is a previous hit
+		} else if (this.prevHit != null) {
+			// Compare previous to last and attk the next cell in line
+			if (this.lastHit[0] > this.prevHit[0]) {
+				// Check if next move goes off the board
+				// If doesnt go off board and hasnt been shot
+				if (this.lastHit[0] + 1 < 10 &&
+					!player1.board.grid[this.lastHit[0] + 1][this.lastHit[1]].shot) {
+					// Attk next move in straight line
+					coord = [this.lastHit[0] + 1, this.lastHit[1]];
+					data = this.makeMove(coord, player1);
+				} else { // If calculated move is off the board
+					// Since we know next move WOULD be X + 1, attack firstHit X - 1
+					coord = [this.firstHit[0] - 1, this.firstHit[1]];
+					data = this.makeMove(coord, player1);
+				}
+			} else if (this.lastHit[0] < this.prevHit[0]) {
+				if (this.lastHit[0] - 1 >= 0 &&
+					!player1.board.grid[this.lastHit[0] - 1][this.lastHit[1]].shot) {
+					coord = [this.lastHit[0] - 1, this.lastHit[1]];
+					data = this.makeMove(coord, player1);
+				} else {
+					coord = [this.firstHit[0] + 1, this.firstHit[1]];
+					data = this.makeMove(coord, player1);
+				}
+			} else if (this.lastHit[1] > this.prevHit[1]) {
+				if (this.lastHit[1] + 1 < 10 &&
+					!player1.board.grid[this.lastHit[0]][this.lastHit[1] + 1].shot) {
+					coord = [this.lastHit[0], this.lastHit[1] + 1];
+					data = this.makeMove(coord, player1);
+				} else {
+					coord = [this.firstHit[0], this.firstHit[1] - 1];
+					data = this.makeMove(coord, player1);
+				}
+			} else if (this.lastHit[1] < this.prevHit[1]) {
+				if (this.lastHit[1] - 1 >= 0 &&
+					!player1.board.grid[this.lastHit[0]][this.lastHit[1] - 1].shot) {
+					coord = [this.lastHit[0], this.lastHit[1] - 1];
+					data = this.makeMove(coord, player1);
+				} else {
+					coord = [this.firstHit[0], this.firstHit[1] + 1];
+					data = this.makeMove(coord, player1);
+				}
+			} else {
+				throw Error('Unable to attack adjacent cell');
+			}
+		// If there is no previous hit
+		} else {
+			data = this.makeMove(coord, player1);
+		}
+
+		// If attack hit but didnt sink
+		if (data.hit && !data.sunk) {
+			this.prevHit = this.lastHit;
+			this.lastHit = coord;
+		// If adjacent cell attack missed
+		} else if (data.miss && this.lastHit != null || data.alreadyShot) {
+			// Compare firstHit with lastHit to calculate the next move
+			// If the last hits X is > first hits X
+			if (this.lastHit[0] > this.firstHit[0]) {
+				// Next hit is first hits X - 1
+				this.nextHit = [this.firstHit[0] - 1, this.firstHit[1]];
+			// If last hits X is < first hits X
+			} else if (this.lastHit[0] < this.firstHit[0]) {
+				// Next hit is 1 above the first hit
+				this.nextHit = [this.firstHit[0] + 1, this.firstHit[1]];
+			} else if (this.lastHit[1] > this.firstHit[1]) {
+				this.nextHit = [this.firstHit[0], this.firstHit[1] - 1];
+			} else if (this.lastHit[1] < this.firstHit[1]) {
+				this.nextHit = [this.firstHit[0], this.firstHit[1] + 1];
+			} else if (this.lastHit != this.firstHit) {
+				throw Error('Error calculating next hit');
+			}
+
+			if (data.alreadyShot) {
+				data = this.makeMove(this.nextHit, player1);
+			}
+		// If attk sunk a Ship
+		} else if (data.sunk) {
+			// Reset last/prev hits, they do not matter anymore
+			this.prevHit = null;
+			this.lastHit = null;
+			this.firstHit = null;
+			this.adjacent = [];
+		}
+
+		return data;
+	}
+
+	/**
+	 * Attack adjacent spaces when Computer gets a hit
+	 * @param {number[]} coord The space thats been hit
+	 */
+	pushAdjacent(coord) {
+		if (typeof coord[0] !== 'number' || typeof coord[1] !== 'number') {
+			throw Error('Coordinates are not numbers');
+		}
+		// Push adjacent coordinates to arr
+		// If adjacent coord is not hit
+		if (coord[0] < 9 && !player1.board.grid[coord[0] + 1][coord[1]].shot) {
+			this.adjacent.push([coord[0] + 1, coord[1]]);
+		}
+		if (coord[0] > 0 && !player1.board.grid[coord[0] - 1][coord[1]].shot) {
+			this.adjacent.push([coord[0] - 1, coord[1]]);
+		}
+		if (coord[1] < 9 && !player1.board.grid[coord[0]][coord[1] + 1].shot) {
+			this.adjacent.push([coord[0], coord[1] + 1]);
+		}
+		if (coord[1] > 0 && !player1.board.grid[coord[0]][coord[1] - 1].shot) {
+			this.adjacent.push([coord[0], coord[1] - 1]);
+		}
 	}
 
 	/**

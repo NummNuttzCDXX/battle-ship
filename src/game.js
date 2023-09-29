@@ -88,7 +88,7 @@ export class Game {
 	 * @return {void}
 	 */
 	makeMove = (msg) => {
-		if (!this.game) return this.gameOver(); // If game is not playing, return
+		if (!this.game) return; // If game is not playing, return
 
 		this.#switchTurns();
 
@@ -119,7 +119,16 @@ export class Game {
 			// 2 second delay
 			setTimeout(() => {
 				// AI makes their move
-				const data = this.player2.makeRandomMove();
+				let data;
+				// If theres a hit saved
+				if (this.player2.lastHit) {
+					// Run through cells adjacent to last turns hit
+					data = this.player2.runAdjacentHit();
+				} else {
+					// Otherwise, make random move
+					data = this.player2.makeRandomMove();
+				}
+
 				Dom.printMoveInfo(data);
 				// Switch turns and add p1 listeners
 				this.makeMove();
