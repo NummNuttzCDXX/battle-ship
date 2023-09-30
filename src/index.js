@@ -1,5 +1,6 @@
 /* Battle-Ship Main
-Start: 9/5/23 */
+Start: 9/5/23
+End: 9/28/23 */
 
 import {Dom} from './dom';
 import {Game} from './game';
